@@ -23,47 +23,43 @@ print(N)
 F <- N / sum(N)
 print(F)
 
-Dr <- diag(rowSums(F))
-Dc <- diag(colSums(F))
+Dr <- diag(rowSums(N) / sum(N))
+Dc <- diag(colSums(N) / sum(N))
 print(Dr)
 print(Dc)
 
-p_row <- solve(Dr) %*% F
-p_col <- solve(Dc) %*% t(F)
-print(p_row)
-print(p_col)
+Pr <- solve(Dr) %*% F
+Pc <- solve(Dc) %*% t(F)
+print(Pr)
+print(Pc)
 
-
+t(Pr[1,]-Pr[2,]) %*% solve(Dc) %*% ((Pr[1,]-Pr[2,]))
 # 3. Calcular las distancias chi cuadrado entre los tres puntos fila
 d_chi_square <- function(x, y) t(x - y) %*% solve(Dc) %*% (x - y)
 D <- c(
-  d_chi_square(F[,1],F[,2]),
-  d_chi_square(F[,1],F[,3]),
-  d_chi_square(F[,2],F[,3])
+  d_chi_square(Pr[1,],Pr[2,]),
+  d_chi_square(Pr[1,],Pr[3,]),
+  d_chi_square(Pr[2,],Pr[3,])
 )
 print(D)
 
-d_chi_square_2 <- function(x, y) sum(1 / colSums(F) * (x / rowSums(F) - y / rowSums(F))^2)
-D2 <- c(
-  d_chi_square_2(F[,1],F[,2]),
-  d_chi_square_2(F[,1],F[,3]),
-  d_chi_square_2(F[,2],F[,3])
-)
-print(D2)
-
 # 4. Calcular el valor del estadístico chi cuadrado
+
 chi_value <- sum(
   (N - (rowSums(N) %*% t(colSums(N))) / sum(N)) ^ 2 /
   ((rowSums(N) %*% t(colSums(N))) / sum(N))
 )
-chisq.test(N)
+print(chi_value)
+
+pval <- pchisq(chi_value, df=4, lower.tail=FALSE)
+print(pval)
 
 # 5. Calcular la inercia total como la suma ponderada de las distancias chi
 # cuadrado al centro de gravedad de los puntos fila y comprobar que es el
 # estadístico chi cuadrado dividido por n
 
 # TODO
-# sum(p_row * d_chi_square_2(F,colSums(F))) / sum(N)
+# sum(Pr * d_chi_square_2(F,colSums(F))) / sum(N)
 
 # 6. Construir la matriz a diagonalizar, diagonalizarla calculando los
 # autovalores y autovectores unitarios
