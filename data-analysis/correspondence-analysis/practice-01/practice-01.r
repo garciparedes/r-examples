@@ -9,6 +9,7 @@
 #
 #
 
+rm(list = ls())
 
 # 1.	Construir la matriz
 
@@ -39,7 +40,7 @@ print(Pc)
 
 # 3. Calcular las distancias chi cuadrado entre los tres puntos fila
 
-d_chi_square <- function(x, y) t(x - y) %*% solve(Dc) %*% (x - y)
+d_chi_square <- function(x, y) (t(x - y) %*% solve(Dc) %*% (x - y))[1,1]
 D <- c(
   d_chi_square(Pr[1,],Pr[2,]),
   d_chi_square(Pr[1,],Pr[3,]),
@@ -68,8 +69,8 @@ Gr <- rowSums(N) / sum(N)
 print(Gc)
 print(Gr)
 
-diag(t(t(Pr) - Gc) %*% solve(dc) %*% t(t(t(Pr)-Gc))) %*% Gr
-G <- (diag(t(t(Pr) - Gc) %*% solve(dc) %*% t(t(t(Pr)-Gc))) %*% Gr)[1,1]
+diag(t(t(Pr) - Gc) %*% solve(Dc) %*% t(t(t(Pr)-Gc))) %*% Gr
+G <- (diag(t(t(Pr) - Gc) %*% solve(Dc) %*% t(t(t(Pr)-Gc))) %*% Gr)[1,1]
 print(G)
 
 
@@ -78,10 +79,12 @@ print(G)
 
 X <- t(F) %*% solve(Dr) %*% F %*% solve(Dc)
 print(X)
-X_eigenvec <- eigen(X)$vectors
+X_eigenvec_1 <- eigen(X)$vectors
 X_eigenval <- eigen(X)$values
 
 print(X_eigenval)
+norm <- diag(t(X_eigenvec_1) %*% solve(Dc) %*% X_eigenvec_1)
+X_eigenvec <- t(t(X_eigenvec_1)/sqrt(norm))
 print(X_eigenvec)
 
 # 7. Calcular los factores y las proyecciones de los puntos fila sobre los ejes
@@ -98,22 +101,26 @@ print(Proyec_r)
 # las del punto 3
 
 d_euclidean <- function(x, y) sum( (x / rowSums(F) - y / rowSums(F))^2)
-print(d_euclidean(F[,2], F[,3]))
-print(d_chi_square(F[,2], F[,3]))
+print(d_euclidean(Pr[2,], Pr[3,]))
+print(d_chi_square(Pr[2,], Pr[3,]))
 
 
 # 9. Calcular los factores y las proyecciones de los puntos columna sobre los
 # ejes
 
+Proyec_c = t(sqrt(X_eigenval) * t(fact))
+
 
 # 10. Efectuar una representación conjunta de las proyecciones de filas y
 # columnas
 
-Proyec_r_dataframe <- as.data.frame(Proyec_r[,2:3])
-rownames(Proyec_r_dataframe)<-c("J","ME","M")
-Proyec_r_dataframe
+Proyec_r_df <- as.data.frame(Proyec_r[,2:3])
+Proyec_c_df <- as.data.frame(Proyec_c[,2:3])
+rownames(Proyec_r_df)<-c("J","ME","M")
+rownames(Proyec_c_df)<-c("A","B","C")
+Proyec_df<-rbind(Proyec_r_df,Proyec_c_df)
+
 
 library(ggplot2)
-ggplot(data = Proyec_r_dataframe, aes(x = V1, y = V2, label=rownames(Proyec_r_dataframe))) +
-  geom_text(colour = "red", size = 6) +
-  ggtitle("Proyección simultánea")
+ggplot(data = Proyec_df, aes(x = V1, y = V2, label=rownames(Proyec_df))) +
+  geom_text(colour = "red", size = 6)
