@@ -5,7 +5,7 @@
 # Year: 2017/18
 # Teacher: Miguel Alejandro Fernández Temprano
 # Author: Sergio García Prado (garciparedes.me)
-# Name: Componentes Principales - Práctica 01
+# Name: Análisis de Correspondencias - Práctica 01
 #
 #
 
