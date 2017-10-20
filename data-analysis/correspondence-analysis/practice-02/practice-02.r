@@ -15,19 +15,50 @@ rm(list = ls())
 # 1) Importar los datos a R desde el fichero salud by edad.csv
 #
 
-DATA <- read.csv('./../../../datasets/salud-by-edad.csv', header=TRUE)
-print(DATA)
-
-N = DATA[,2:6]
+N <- data.matrix(read.csv(
+  './../../../datasets/salud-by-edad.csv',
+  header=TRUE,
+  row.names = 1))
 print(N)
 
+F <- N / sum(N)
+print(F)
+
+
+D_r <- diag(rowSums(N) / sum(N))
+D_c <- diag(colSums(N) / sum(N))
+
+print(D_r)
+print(D_c)
+
+P_r <- solve(D_r) %*% F
+P_c <- solve(D_c) %*% t(F)
+
+print(P_r)
+print(P_c)
 
 #
 # 2) Revisar el test chi-cuadrado, su interpretación, las tablas que llevan a
 #   la generación de sus valores y los perfiles fila y columna
 #
 
+d_chi_square <- function(x, y) (t(x - y) %*% solve(D_c) %*% (x - y))[1,1]
+D <- c(
+  d_chi_square(P_r[1,],P_r[2,]),
+  d_chi_square(P_r[1,],P_r[3,]),
+  d_chi_square(P_r[2,],P_r[3,])
+)
+print(D)
 
+chi_value <- sum(
+  (N - (rowSums(N) %*% t(colSums(N))) / sum(N)) ^ 2 /
+  ((rowSums(N) %*% t(colSums(N))) / sum(N))
+)
+print(chi_value)
+
+pval <- pchisq(chi_value,
+  df=(dim(N)[1] - 1) * (dim(N)[2] - 2), lower.tail=FALSE)
+print(pval)
 
 #
 # 3) Tomar decisiones sobre el número de componentes a extraer basadas en los
