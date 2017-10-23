@@ -11,6 +11,9 @@
 
 rm(list = ls())
 
+library(ggplot2)
+library(ca)
+
 # 1.	Construir la matriz
 
 N <- t(matrix(
@@ -121,6 +124,17 @@ rownames(Proyec_c_df)<-c("A","B","C")
 Proyec_df<-rbind(Proyec_r_df,Proyec_c_df)
 
 
-library(ggplot2)
 ggplot(data = Proyec_df, aes(x = V1, y = V2, label=rownames(Proyec_df))) +
   geom_text(colour = "red", size = 6)
+
+#
+# Comprobación de resultados con libreria CA
+#
+
+N_f <- as.data.frame.matrix(N)
+colnames(N_f) <- c("c1", "c2", "c3")
+rownames(N_f) <- c("r1", "r2", "r3")
+
+fit <- ca(N_f)
+summary(fit)
+plot(fit)
