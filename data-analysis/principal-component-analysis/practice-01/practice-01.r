@@ -9,7 +9,10 @@
 #
 #
 
-# library(gdata)
+
+rm(list = ls())
+
+library(ggplot2)
 suppressMessages(library(gdata))
 
 DATA <- read.xls('./../../../datasets/olympic-2016.xls')
@@ -30,7 +33,6 @@ S <- X %*% X_u
 scores = as.data.frame(S)
 # print(scores)
 
-library(ggplot2)
 ggplot(data = scores, aes(x=V1, y=V2, label=DATA[,12])) +
   geom_point() +
   geom_text()

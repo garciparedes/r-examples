@@ -9,9 +9,15 @@
 #
 #
 
+rm(list = ls())
+
+library(ggplot2)
+
 # Importar los datos a SAS desde el fichero Olympic2016 v2.txt;
 
 DATA <- read.csv('./../../../datasets/olympic-2016-v2.txt', header=TRUE)
+
+A <- DATA[,1:10]
 
 
 #
@@ -19,11 +25,24 @@ DATA <- read.csv('./../../../datasets/olympic-2016-v2.txt', header=TRUE)
 #
 
 
+X <- t((t(A) - colMeans(A)) / apply(A, 2, sd))
+
+X_star = (t(X) %*% X) / (dim(X)[1]-1)
+
+X_eig <- eigen(X_star)
+X_lambda <- X_eig$values
+X_u <- X_eig$vectors
+
 #
 # Calcular los scores en las 10 componentes y comprobar que tienen media 0
 # y varianza igual al autovalor correspondiente.
 #
 
+
+X_scores <- X %*% X_u
+
+0 == round(colMeans(X_scores), digits = -4)
+round(X_lambda, digits = -4) == round(apply(X_scores, 2, sd) ^ 2, digits = -4)
 
 
 #
