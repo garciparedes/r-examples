@@ -1,5 +1,8 @@
 /**/teacher-examples/
 
+# Created by https://www.gitignore.io/api/r
+
+### R ###
 # History files
 .Rhistory
 .Rapp.history
@@ -33,3 +36,5 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+
+# End of https://www.gitignore.io/api/r
