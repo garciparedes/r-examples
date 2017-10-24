@@ -26,10 +26,10 @@ rownames(A) <- DATA[,12]
 
 
 X <- t((t(A) - colMeans(A)) / apply(A, 2, sd))
-X_n = dim(X)[1]
-X_p = dim(X)[2]
+X_n <- dim(X)[1]
+X_p <- dim(X)[2]
 
-X_star = (t(X) %*% X) / (X_n-1)
+X_star <- (t(X) %*% X) / (X_n-1)
 
 X_eig <- eigen(X_star)
 X_lambda <- X_eig$values
@@ -48,9 +48,9 @@ ggplot(as.data.frame.matrix(F), aes(x=V1, y=V2)) +
   geom_text(label=rownames(F))
 
 
-0 == round(colMeans(F), digits = 4)
-round(X_lambda, digits = 4) == round(apply(F, 2, sd) ^ 2, digits = 4)
-
+0 == round(colMeans(F), digits=4)
+round(X_lambda, digits=4) == round(apply(F, 2, sd) ^ 2, digits=4)
+sum(X_lambda)
 
 #
 # Calcular las contribuciones absolutas y relativas de los puntos a las
@@ -93,6 +93,9 @@ ggplot(as.data.frame.matrix(G), aes(x=V1, y=V2)) +
 # Calcular las proyecciones de las variables (scores) en los nuevos ejes.
 # Calcular sus medias, sus varianzas y la suma de sus cuadrados (dividida por n-1).
 #
+
+colMeans(G)
+apply(G, 2, sd) ^ 2
 
 #
 # Reconstruir la matriz de datos original a partir de los autovalores y autovectores.
