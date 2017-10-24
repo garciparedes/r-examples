@@ -26,8 +26,10 @@ A <- DATA[,1:10]
 
 
 X <- t((t(A) - colMeans(A)) / apply(A, 2, sd))
+X_n = dim(X)[1]
+X_p = dim(X)[2]
 
-X_star = (t(X) %*% X) / (dim(X)[1]-1)
+X_star = (t(X) %*% X) / (X_n-1)
 
 X_eig <- eigen(X_star)
 X_lambda <- X_eig$values
@@ -41,8 +43,8 @@ X_u <- X_eig$vectors
 
 X_scores <- X %*% X_u
 
-0 == round(colMeans(X_scores), digits = -4)
-round(X_lambda, digits = -4) == round(apply(X_scores, 2, sd) ^ 2, digits = -4)
+0 == round(colMeans(X_scores), digits = 4)
+round(X_lambda, digits = 4) == round(apply(X_scores, 2, sd) ^ 2, digits = 4)
 
 
 #
@@ -51,6 +53,11 @@ round(X_lambda, digits = -4) == round(apply(X_scores, 2, sd) ^ 2, digits = -4)
 #
 
 
+X_ca <- t(t(X_scores^2) / rowSums(t(X_scores ^ 2)))
+X_re <- (X_scores^2) / rowSums(X_scores ^ 2)
+
+print(round(X_ca, digits = 4))
+print(round(X_re, digits = 4))
 
 #
 # Considerar ahora la nube de los puntos columna y calcular los autovalores y
