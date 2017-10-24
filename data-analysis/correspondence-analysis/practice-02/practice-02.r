@@ -5,12 +5,14 @@
 # Year: 2017/18
 # Teacher: Miguel Alejandro Fernández Temprano
 # Author: Sergio García Prado (garciparedes.me)
-# Name: Correspondence Analyis - Práctica 02
+# Name: Análisis de Correspondencias - Práctica 02
 #
 #
 
 rm(list = ls())
 
+library(ggplot2)
+library(ca)
 #
 # 1) Importar los datos a R desde el fichero salud by edad.csv
 #
@@ -41,7 +43,7 @@ print(P_c)
 # 2) Revisar el test chi-cuadrado, su interpretación, las tablas que llevan a
 #   la generación de sus valores y los perfiles fila y columna
 #
-
+dim(P_r)
 d_chi_square <- function(x, y) (t(x - y) %*% solve(D_c) %*% (x - y))[1,1]
 D <- c(
   d_chi_square(P_r[1,],P_r[2,]),
@@ -57,7 +59,7 @@ chi_value <- sum(
 print(chi_value)
 
 pval <- pchisq(chi_value,
-  df=(dim(N)[1] - 1) * (dim(N)[2] - 2), lower.tail=FALSE)
+  df = (dim(N)[1] - 1) * (dim(N)[2] - 2), lower.tail=FALSE)
 print(pval)
 
 #
@@ -66,6 +68,29 @@ print(pval)
 #
 
 
+X <- t(F) %*% solve(D_r) %*% F %*% solve(D_c)
+
+X_eigen <- eigen(X)
+X_eigenval <- X_eigen$values
+X_eigenvec_1 <- X_eigen$vectors
+
+X_eigenvec_norm <- diag(t(X_eigenvec_1) %*% solve(D_c) %*% X_eigenvec_1)
+
+X_eigenvec <- t(t(X_eigenvec_1) / sqrt(X_eigenvec_norm))
+
+
+print(X_eigenval)
+print(X_eigenvec)
+
+fact <- solve(D_c) %*% X_eigenvec
+
+Proyec_r <- P_r %*% fact
+
+print(Proyec_r)
+
+ggplot(data=as.data.frame.matrix(Proyec_r), aes(x=V2, y=V3)) +
+  geom_point() +
+  geom_text(label=rownames(N))
 
 #
 # 4) Inspeccionar las tablas de coordenadas de filas y columnas. ¿Dónde aparece
@@ -73,7 +98,8 @@ print(pval)
 #   los dos primeros factores? ¿Cuánto vale esa calidad para la observación
 #   correspondiente a los individuos entre 45 y 54 años?
 #
-
+ca(N)
+summary(ca(N))
 
 
 #

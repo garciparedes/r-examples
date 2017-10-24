@@ -5,7 +5,7 @@
 # Year: 2017/18
 # Teacher: Miguel Alejandro Fernández Temprano
 # Author: Sergio García Prado (garciparedes.me)
-# Name: Práctica 03
+# Name: Análisis de Componentes Principales - Práctica 03 - Olympic
 #
 #
 
