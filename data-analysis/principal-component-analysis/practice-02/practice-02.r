@@ -18,7 +18,7 @@ library(ggplot2)
 DATA <- read.csv('./../../../datasets/olympic-2016-v2.txt', header=TRUE)
 
 A <- DATA[,1:10]
-
+rownames(A) <- DATA[,12]
 
 #
 # Efectuar mediante un ACP normado con los datos de las 10 pruebas.
@@ -41,10 +41,15 @@ X_u <- X_eig$vectors
 #
 
 
-X_scores <- X %*% X_u
+F <- X %*% X_u
 
-0 == round(colMeans(X_scores), digits = 4)
-round(X_lambda, digits = 4) == round(apply(X_scores, 2, sd) ^ 2, digits = 4)
+ggplot(as.data.frame.matrix(F), aes(x=V1, y=V2)) +
+  geom_point() +
+  geom_text(label=rownames(F))
+
+
+0 == round(colMeans(F), digits = 4)
+round(X_lambda, digits = 4) == round(apply(F, 2, sd) ^ 2, digits = 4)
 
 
 #
@@ -53,8 +58,8 @@ round(X_lambda, digits = 4) == round(apply(X_scores, 2, sd) ^ 2, digits = 4)
 #
 
 
-X_ca <- t(t(X_scores^2) / rowSums(t(X_scores ^ 2)))
-X_re <- (X_scores^2) / rowSums(X_scores ^ 2)
+X_ca <- t(t(F^2) / rowSums(t(F ^ 2)))
+X_re <- (F^2) / rowSums(F ^ 2)
 
 print(round(X_ca, digits = 4))
 print(round(X_re, digits = 4))
@@ -65,6 +70,24 @@ print(round(X_re, digits = 4))
 # de la nube de puntos fila.
 #
 
+X_v <- t(t(F) / (sqrt(X_lambda * (X_n - 1))))
+
+
+print(round(X_v, digits = 4))
+
+G <- t(X) %*% X_v
+
+print(G)
+
+X_u_2 <- t(t(G) / sqrt(X_lambda * (X_n - 1)))
+
+
+round(X_u_2, digits = 4) == round(X_u, digits = 4)
+
+
+ggplot(as.data.frame.matrix(G), aes(x=V1, y=V2)) +
+  geom_point() +
+  geom_text(label=rownames(G))
 
 #
 # Calcular las proyecciones de las variables (scores) en los nuevos ejes.
