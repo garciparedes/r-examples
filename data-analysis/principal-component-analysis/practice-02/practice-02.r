@@ -12,6 +12,8 @@
 rm(list = ls())
 
 library(ggplot2)
+library(MASS)
+
 
 # Importar los datos a SAS desde el fichero Olympic2016 v2.txt;
 
@@ -101,6 +103,11 @@ apply(G, 2, sd) ^ 2
 # Reconstruir la matriz de datos original a partir de los autovalores y autovectores.
 #
 
+X_u %*% diag(X_lambda) %*% ginv(X_u)
+X_star
+
 #
 # Reconstruir la matriz con las dos primeras componentes principales y valorar la pérdida.
 #
+
+X_u[,1:2] %*% diag(X_lambda[1:2]) %*% ginv(X_u[,1:2])
