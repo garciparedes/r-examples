@@ -43,14 +43,6 @@ print(P_c)
 # 2) Revisar el test chi-cuadrado, su interpretación, las tablas que llevan a
 #   la generación de sus valores y los perfiles fila y columna
 #
-dim(P_r)
-d_chi_square <- function(x, y) (t(x - y) %*% solve(D_c) %*% (x - y))[1,1]
-D <- c(
-  d_chi_square(P_r[1,],P_r[2,]),
-  d_chi_square(P_r[1,],P_r[3,]),
-  d_chi_square(P_r[2,],P_r[3,])
-)
-print(D)
 
 chi_value <- sum(
   (N - (rowSums(N) %*% t(colSums(N))) / sum(N)) ^ 2 /
@@ -85,12 +77,13 @@ print(X_eigenvec)
 fact <- solve(D_c) %*% X_eigenvec
 
 Proyec_r <- P_r %*% fact
+Proyec_c <- t(sqrt(X_eigenval) * t(fact))
 
-print(Proyec_r)
+DF = as.data.frame(rbind(Proyec_r, Proyec_c))
 
-ggplot(data=as.data.frame.matrix(Proyec_r), aes(x=V2, y=V3)) +
+ggplot(data=DF, aes(x=V2, y=V3)) +
   geom_point() +
-  geom_text(label=rownames(N))
+  geom_text(label=c(rownames(N),colnames(N)))
 
 #
 # 4) Inspeccionar las tablas de coordenadas de filas y columnas. ¿Dónde aparece
@@ -98,7 +91,7 @@ ggplot(data=as.data.frame.matrix(Proyec_r), aes(x=V2, y=V3)) +
 #   los dos primeros factores? ¿Cuánto vale esa calidad para la observación
 #   correspondiente a los individuos entre 45 y 54 años?
 #
-ca(N)
+
 summary(ca(N))
 
 
@@ -108,6 +101,9 @@ summary(ca(N))
 #   plano factorial
 #
 
+N[-4,]
+
+summary(ca(N[-4,]))
 
 
 #
@@ -115,7 +111,7 @@ summary(ca(N))
 #   columnas e interpretar los factores y el resultado del análisis
 #
 
-
+plot(ca(N[-4,]))
 
 #
 # 7) ¿Puede decirse, a la vista del gráfico, que entre los individuos entre 16
@@ -124,3 +120,6 @@ summary(ca(N))
 #   los individuos de 75 o más años? Revisar los perfiles fila y perfiles
 #   columna.
 #
+
+P_r
+P_c
