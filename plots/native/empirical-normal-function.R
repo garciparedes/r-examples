@@ -4,13 +4,18 @@
 # Date: 2017-11
 # Title: Getting Started with Native Plots
 #
+
 rm(list = ls())
 
-x_10 <- sort(rnorm(10))
-x_100 <- sort(rnorm(100))
-x_1000 <- sort(rnorm(1000))
+n_support <- 100
+min_support <- -4
+max_support <- 4
+support <- as.matrix(seq(min_support, max_support, (max_support-min_support)/n_support))
 
-plot(x_10, type = "o")
-plot(x_100, type = "o")
-plot(x_1000, type = "o")
+plot(cbind(support, pnorm(support)), type="l", col=1)
 
+for (n in c(5,10, 100)) {
+  x <- as.matrix(rnorm(n))
+  F_10 <- rowSums(vapply(x, function(x) x<=support, logical(n_support+1)))
+  lines(cbind(support, F_10 / n), type = "l",col =n)
+}
