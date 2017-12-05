@@ -19,7 +19,8 @@ naiveKmeans <- function(data, k) {
 
   train <- function(data, k) {
     ranges <- sapply(data, range)
-    
+    coordinates <- (runif(dim(ranges)[2] * k, min=ranges[1,], max=ranges[2,]))
+    centers <- t(matrix(data = (coordinates), ncol = k))
   }
   
   centers <- train(data, k)
@@ -31,4 +32,4 @@ naiveKmeans <- function(data, k) {
   
 }
 
-iris.kmeans <- naiveKmeans(iris.use,3)
+iris.kmeans <- naiveKmeans(iris.use, 3)
