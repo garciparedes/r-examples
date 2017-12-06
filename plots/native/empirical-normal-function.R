@@ -14,7 +14,7 @@ support <- as.matrix(seq(min_support, max_support, (max_support-min_support)/n_s
 
 plot(cbind(support, pnorm(support)), type="l", col=1)
 
-for (n in c(5,10, 100)) {
+for (n in c(5, 10, 100)) {
   x <- as.matrix(rnorm(n))
   F_10 <- rowSums(vapply(x, function(x) x<=support, logical(n_support+1)))
   lines(cbind(support, F_10 / n), type = "l",col =n)
