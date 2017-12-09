@@ -10,7 +10,11 @@ rm(list = ls())
 naiveKmeans <- function(data, k, tol = 0.1) {
   
   distance <- function(centers, data) {
-    as.matrix(dist(rbind(centers, data), upper=TRUE))[-c(1:3), 1:k]
+    distances <- matrix(rep(0,3 * dim(data)[1]), ncol = dim(centers)[1])
+    for (i in 1:dim(centers)[1]) {
+      distances[,i] <- sqrt(colSums((centers[i,] - t(data))^2))
+    }
+    return(distances)
   }
   
   train <- function(data, k, tol) {
