@@ -8,57 +8,66 @@
 rm(list = ls())
 
 naiveKmeans <- function(data, k, tol = 0.1) {
-    
+  
+  distance <- function(centers, data) {
+    as.matrix(dist(rbind(centers, data), upper=TRUE))[-c(1:3), 1:k]
+  }
+  
   train <- function(data, k, tol) {
     ranges <- sapply(data, range)
     coordinates <- runif(dim(ranges)[2] * k, min=ranges[1,], max=ranges[2,])
     centers <- t(matrix(data = (coordinates), ncol = k))
-    colnames(centers)<-colnames(data)
-    distance <-  as.matrix(dist(rbind(centers, data), upper=TRUE))[,1:k]
+    colnames(centers) <- colnames(data)
+    distance <-  distance(centers, data)
     dataClass <- apply(distance, 1,which.min)
-    
     reached=FALSE
     while (reached == FALSE) {
       for (i in 1:k) {
         centers[i,] = colMeans(data[dataClass == i,], na.rm = TRUE)
       }
-      
-      newDistance <-  as.matrix(dist(rbind(centers, data), upper=TRUE))[,1:k]
+      newDistance <-  distance(centers, data)
       newDataClass <- apply(distance, 1,which.min)
-      
       if ((sum(newDataClass != dataClass) / dim(data)[1]) < tol){
         reached = TRUE
       }
     }
-
-    distance <-  as.matrix(dist(rbind(centers, data), upper=TRUE))[,1:k]
-    dataClass <- apply(distance, 1,which.min)
-    plot(data, col= dataClass + 1)
+    return(centers)
   }
   
   centers <- train(data, k, tol)
 
-  
-  predict <- function(obs) {
-    
+  predict <- function(data) {
+    distance <-  distance(centers, data)
+    dataClass <- apply(distance, 1,which.min)
+    names(dataClass) <- 1:dim(data)[1]
+    return(dataClass)
   }
-  
-  
+
+  value <- list(centers = centers, predict = predict)
+  class(value) <- "naiveKmeans"
+  return(value)
 }
 
+predict.naiveKmeans <- function(obj, data) {
+  return(obj$predict(data))
+}
+
+
 # Spherical and Normal Dataset
-n <- 100
+n <- 300
 data <- data.frame(rbind(
   cbind(rnorm(n, 3), rnorm(n,-20)),
   cbind(rnorm(n, 9), rnorm(n,7)), 
   cbind(rnorm(n, -3), rnorm(n,-2))
 ))
 data.kmeans <- naiveKmeans(data, 3)
+data.kmeans$centers
+plot(data, col = predict(data.kmeans, data))
 
+
+# Iris Dataset
 data(iris)
-
-k <- 3
-iris.use <- iris[,-c(5)]
-
+iris.use <- iris[,1:4]
 iris.kmeans <- naiveKmeans(iris.use, 3)
-plot(iris[,1:4], col= as.numeric(iris[,5]) + 1)
+iris.kmeans$centers
+plot(iris.use, col = predict(iris.kmeans, iris.use) + 1 )
