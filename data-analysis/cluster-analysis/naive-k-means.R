@@ -74,4 +74,4 @@ data(iris)
 iris.use <- iris[,1:4]
 iris.kmeans <- naiveKmeans(iris.use, 3)
 iris.kmeans$centers
-plot(iris.use, col = predict(iris.kmeans, iris.use) + 1 )
+pairs(iris.use, col = predict(iris.kmeans, iris.use) + 1 )
