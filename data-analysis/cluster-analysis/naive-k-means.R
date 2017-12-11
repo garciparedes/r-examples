@@ -7,7 +7,7 @@
 
 rm(list = ls())
 
-naiveKmeans <- function(data, k, tol = 0.1) {
+naiveKmeans <- function(data, k, tol = 0.01) {
   
   distance <- function(centers, data) {
     distances <- matrix(rep(0,3 * dim(data)[1]), ncol = dim(centers)[1])
@@ -66,7 +66,8 @@ data <- data.frame(rbind(
 ))
 data.kmeans <- naiveKmeans(data, 3)
 data.kmeans$centers
-plot(data, col = predict(data.kmeans, data))
+plot(data, col = predict(data.kmeans, data) + 1)
+points(data.kmeans$centers, pch = "x", cex = 2)
 
 
 # Iris Dataset
