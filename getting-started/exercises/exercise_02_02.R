@@ -1,12 +1,12 @@
 #
 # Title:
-#   Ejercicios Computación Estadística - Hoja 2 - Ejercicio 1
+#   Ejercicios Computación Estadística - Hoja 2 - Ejercicio 2
 #
 # Author:
 #   Sergio García Prado - garciparedes.me
 #
 # Date:
-#   March 2018
+#   April 2018
 #
 
 
