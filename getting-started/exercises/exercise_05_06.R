@@ -1,6 +1,6 @@
 #
 # Title:
-#   Ejercicios Computación Estadística - Hoja 5 - Ejercicio 2
+#   Ejercicios Computación Estadística - Hoja 5 - Ejercicio 6
 #
 # Author:
 #   Sergio García Prado - garciparedes.me
