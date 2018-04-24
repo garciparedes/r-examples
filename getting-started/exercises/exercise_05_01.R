@@ -160,7 +160,7 @@ peso.peq <- lista.tipo$Small$Weight
 #
 
 mi.lista <- list("peso" = peso.peq, "consumo" = consumo.tipo)
-mi.lista
+
 
 #
 # Apartado l)
