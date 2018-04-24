@@ -1,5 +1,5 @@
-# r-examples
-Set of awesome R Examples Edit
+# R Examples
+Set of awesome R Examples
 
 ## Contents
 - [TODO]

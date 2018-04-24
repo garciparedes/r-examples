@@ -1,7 +1,14 @@
 /**/teacher-examples/
 
-# Created by https://www.gitignore.io/api/r
+# Created by https://www.gitignore.io/api/r,jupyternotebook
 
+### JupyterNotebook ###
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Remove previous ipynb_checkpoints
+#   git rm -r .ipynb_checkpoints/
+#
 ### R ###
 # History files
 .Rhistory
@@ -37,5 +44,5 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 
-# End of https://www.gitignore.io/api/r
-.Rproj.user
+
+# End of https://www.gitignore.io/api/r,jupyternotebook
