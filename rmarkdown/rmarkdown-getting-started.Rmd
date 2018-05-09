@@ -1,5 +1,5 @@
 ---
-title: "Getting Started with Lattice"
+title: "Getting Started with Rmarkdown"
 output:
   html_document:
     df_print: paged
@@ -7,18 +7,20 @@ output:
 
 
 #### Autor
+
   * Sergio García Prado - [garciparedes.me](https://garciparedes.me)
 
 #### Fecha
+
   * Mayo de 2018
   
 ## Descripción
-En este trabajo se van a realizar distintos gráficos para comparar las diferencias a nivel de sintaxis así como resultados mediante la implementación en el paquete base *graphics* frente al paquete *lattice*. Los diagramas que se van a generar se refieren a funciones de densidad y distribución para la distribución gaussiana ajustada sobre distintos parámetros.
+
+En este trabajo se van a realizar distintos gráficos mediante la implementación del paquete base *graphics* y en algunos casos el paquete *lattice*. Los diagramas que se van a generar se refieren a funciones de densidad y distribución para la distribución gaussiana ajustada sobre distintos parámetros.
 
 Dichos gráficos han sido generados siguiendo un ejercicio de la asignatura *Computación Estadística* del grado en *Estadística* de la Universidad de Valladolid. En concreto, se ha realizado el **Ejercicio 3 de la Hoja 5**
 
 Este documento se ha realizado apoyandose en el lenguaje **R** junto con los paquetes *rmarkdown* (para la generación del documento) y *lattice* (para la generación avanzada de gráficos).
-
 
 ```{r}
 rm(list = ls())
@@ -42,26 +44,20 @@ limits <- c(-6, 6)
 x <- seq(limits[1], limits[2], length = 200)
 ```
 
-#### Paquete *graphics*
-
 ```{r}
 par(mfrow = c(2, 4))
-for (i in deviations) {
-  for (j in means) {
-    plot(x, dnorm(x, j, i), type = "l", ylab = "f(x)", main = paste0("N(",j, ", ", i, ")"))
+for (s in deviations) {
+  for (m in means) {
+    curve(dnorm(x, m, s), from = limits[1], to = limits[2], ylab = "f(x)", 
+         main = paste0("N(",m, ", ", s, ")"))
   }
 }
-for (i in deviations) {
-  for (j in means) {
-    plot(x, pnorm(x, j, i), type = "l", ylab = "F(x)", main = paste0("N(",j, ", ", i, ")"))
+for (s in deviations) {
+  for (m in means) {
+    curve(pnorm(x, m, s), from = limits[1], to = limits[2], ylab = "F(x)", 
+         main = paste0("N(",m, ", ", s, ")"))
   }
 }
-```
-
-#### Paquete *lattice*
-
-```{r}
-# TODO
 ```
 
 ### Apartado b
@@ -70,26 +66,38 @@ El enunciado del apartado es el siguiente:
 
 *Realizar los gráficos anteriores en una ventana dividida en dos, en una poner las cuatro funciones de densidad y en otra las cuatro funciones de distribución.*
 
-#### Paquete *graphics*
-
 ```{r}
 par(mfrow = c(1, 1))
-plot(limits, c(0, 2), type = "n", ylab = "f(x)")
-for (i in deviations) {
-  for (j in means) {
-    lines(x, dnorm(x, j, i))
-  }
-}
-plot(limits, c(0, 1), type = "n", ylab = "F(x)")
-for (i in deviations) {
-  for (j in means) {
-    lines(x, pnorm(x, j, i))
-  }
-}
 ```
 
 ```{r}
-# TODO
+plot(limits, c(0, 2), type = "n", ylab = "f(x)", xlab = "x", 
+     main = "Funciones de Densidad para la distribución N(m, s)")
+i <- 0
+for (s in deviations) {
+  for (m in means) {
+    i <- i + 1
+    curve(dnorm(x, m, s), from = limits[1], to = limits[2] , col = i, add = TRUE)
+  }
+}
+legend(limits[1], 2, paste0("N(", rep(means, length.out = i),
+                            "," , rep(deviations, each = length(means)),")"), 
+       fill = 1:i)
+```
+
+```{r}
+plot(limits, c(0, 1), type = "n", ylab = "F(x)", xlab = "x", 
+     main = "Funciones de Distribución para la distribución N(m, s)")
+i <- 0
+for (s in deviations) {
+  for (m in means) {
+    i <- i + 1
+    curve(pnorm(x, m, s), from = limits[1], to = limits[2] , col = i, add = TRUE)
+  }
+}
+legend(limits[1], 1, paste0("N(", rep(means, length.out = i),
+                            "," , rep(deviations, each = length(means)),")"), 
+       fill = 1:i)
 ```
 
 ### Apartado c
@@ -98,51 +106,51 @@ El enunciado del apartado es el siguiente:
 
 *Generar 400 datos de la distribución normal de media 3 y varianza 4. Obtener su media, mediana, varianza, mínimo, máximo, cuartiles y recorrido intercuartílico. Comparar la media, mediana y varianza muestrales con los parámetros correspondientes de la distribución original.*
 
-#### Paquete *graphics*
-
 ```{r}
-d <- rnorm(400, 3, 2)
+m <- 3
+s <- 2
+d <- rnorm(400, m, s)
 ```
 
 ```{r}
 h <- hist(d, breaks = 30, xlab="x", ylab ="y",
-  	main="Histograma de los datos generados")
-xfit<-seq(min(d),max(d),length=length(d)) 
-yfit<-dnorm(xfit,mean=3, sd = 2) 
-yfit <- yfit*diff(h$mids[1:2])*length(d) 
-lines(xfit, yfit, lwd=2)
+  	main = paste0("Histograma de los datos generados a partir de N(", 
+  	              m , ",", s, ")"))
+curve(dnorm(x, mean = m, sd = s) * diff(h$mids[1:2]) * length(d), 
+      from = min(d), to = max(d), lwd = 2, add = TRUE)
 ```
-
-
 
 #### Paquete *lattice*
 
 ```{r}
-# TODO
+densityplot(d)
 ```
 
 
 
 #### Generación de Estadísticos
 
-```{R}
+```{r}
 (params <- list(mean = mean(d), median = median(d), var = var(d), 
                min = min(d), max = max(d), iqr = IQR(d), 
                q.15 = quantile(d, 0.25), q.75 = quantile(d, 0.75)))
 ```
 
 La media se encuentra próxima a su valor teórico
-```{R}
+
+```{r}
 abs(params$mean - 3)
 ```
 
 La mediana se encuentra próxima a su valor teórico
-```{R}
+
+```{r}
 abs(params$median - 3)
 ```
 
 La varianza se encuentra próxima a su valor teórico
-```{R}
+
+```{r}
 abs(params$var - 4)
 ```
 
