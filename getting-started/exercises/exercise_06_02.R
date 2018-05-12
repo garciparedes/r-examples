@@ -18,6 +18,14 @@ my.mean <- function(x, with.arithmetic = TRUE, k = 0,
                     with.cuadratic = TRUE, ...) {
   result <- list()
   n <- length(x)
+  if (with.geometric & !all(x > 0)) {
+    stop("Geometric Mean is computable only over non negative data.")
+  }
+
+  if ((with.cropped | with.winsorize) & k * 2 >= n) {
+    stop("Cutting value k should be less than length(x)/2.")
+  }
+
 
   if (with.arithmetic) {
     result$arithmetic <- mean(x, ...)
@@ -46,4 +54,4 @@ my.mean <- function(x, with.arithmetic = TRUE, k = 0,
   return(result)
 }
 
-my.mean((1:100), k = 3)
+my.mean((1:100), k = 49)
