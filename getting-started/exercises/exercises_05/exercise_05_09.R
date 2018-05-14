@@ -16,8 +16,9 @@ rm(list = ls())
 #
 # Apartado a)
 #
+path <- "./../../../datasets/"
 
-poblacion <- read.table("./../../datasets/provincias-pob.txt",
+poblacion <- read.table(paste0(path, "provincias-pob.txt"),
                         col.names = c("Provincia", "Poblacion"))
 
 poblacion$Provincia <- as.factor(gsub("[[:digit:]]+-", "", poblacion$Provincia))

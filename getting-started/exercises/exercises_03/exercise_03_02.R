@@ -15,8 +15,9 @@ rm(list = ls())
 #
 # Apartado a)
 #
+path <- "./../../../datasets/"
 
-(gallinas <- source("./../../datasets/gallinas.R")$value)
+(gallinas <- source(paste0(path, "gallinas.R"))$value)
 # provincia	agno	tipo	cabezas	hue.ave	docenas
 # Avila	1999	selectas	125.0	285	2969
 # Avila	2000	selectas	146.0	285	3477

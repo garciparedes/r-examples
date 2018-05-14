@@ -11,7 +11,9 @@
 
 rm(list = ls())
 library(lattice)
-source("./../../datasets/padron.R")
+path <- "./../../../datasets/"
+
+source(paste0(path, "padron.R"))
 
 XX <- as.data.frame(XX)
 XX <- data.frame(names = reorder(row.names(XX), XX$total.hombres +

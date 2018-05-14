@@ -12,11 +12,12 @@
 
 rm(list = ls())
 
+path <- "./../../../datasets/"
 #
 # Apartado a)
 #
 
-matriculaciones <- read.table("./../../datasets/matriculaciones2.txt", header = TRUE)
+matriculaciones <- read.table(paste0(path, "matriculaciones2.txt"), header = TRUE)
 
 #
 # Apartado a.1 )

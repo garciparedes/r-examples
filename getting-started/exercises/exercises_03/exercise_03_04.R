@@ -18,10 +18,12 @@ rm(list = ls())
 
 library(readxl)
 
-misdatos <- read_xlsx("./../../datasets/castillayleon.xlsx",
+path <- "./../../../datasets/"
+
+misdatos <- read_xlsx(paste0(path, "castillayleon.xlsx"),
                       sheet = "pcaxis", skip = 11,
                       col_names = c("Año", "Ambos Sexos", "Varones", "Mujeres"))
 
 write.table(misdatos, file = "misdatos.txt")
 
-read.csv(misdatos, file = "misdatos.csv")
+write.csv(misdatos, file = "misdatos.csv")

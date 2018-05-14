@@ -15,8 +15,9 @@ rm(list = ls())
 #
 # Apartado a)
 #
+path <- "./../../../datasets/"
 
-cifras <- read.table("./../../datasets/cifras_mundiales.txt", header = TRUE)
+cifras <- read.table(paste0(path, "cifras_mundiales.txt"), header = TRUE)
 summary(cifras)
 
 #
@@ -70,5 +71,5 @@ boxplot(nat ~ idh.level, cifras)
 # Apartado f)
 #
 pairs(cifras[,1:8])
-plot(nat ~ fec, cifras, pch = 20, xlab = "Fecundidad", ylab = "Natalidad", 
+plot(nat ~ fec, cifras, pch = 20, xlab = "Fecundidad", ylab = "Natalidad",
      main = "Relación entre Fecundidad y Natalidad por paises")

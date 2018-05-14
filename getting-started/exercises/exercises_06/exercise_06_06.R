@@ -11,7 +11,8 @@
 
 library(readxl)
 
-base.path <- './../../datasets/comunidades-autónomas/'
+path <- "./../../../datasets/"
+base.path <- paste0(path, "comunidades-autónomas/")
 
 poblacion <- function(name) {
   path <- paste0(base.path, gsub(" ", "-", tolower(name)), ".xls")
