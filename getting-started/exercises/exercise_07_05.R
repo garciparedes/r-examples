@@ -9,13 +9,14 @@
 #   May 2018
 #
 
+rm(list = ls())
 library(lattice)
 source("./../../datasets/padron.R")
 
-
-
+XX <- as.data.frame(XX)
+XX <- data.frame(names = reorder(row.names(XX), XX$total.hombres +
+                                                XX$total.mujeres), XX)
 barchart(names ~ total.hombres + total.mujeres,
-         data = data.frame(names = reorder(row.names(XX), XX$total.hombres +
-                                                          XX$total.mujeres), XX),
+         data = XX,
          auto.key = list(space = "top", columns = 2),
          main = "Población de cada sexo en las CCAA")
