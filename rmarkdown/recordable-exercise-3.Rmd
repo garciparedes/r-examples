@@ -16,6 +16,7 @@ rm(list = ls())
 ```{r}
 library(pyramid)
 library(lattice)
+library(maptools)
 ```
 
 ```{r}
@@ -108,7 +109,11 @@ Utilizando los datos del padrón publicado en 2017 relativos a toda España real
 ```{r}
 pyramid(data.frame(as.numeric(country[country$sexo == "Hombres", age.range]),
                    as.numeric(country[country$sexo == "Mujeres", age.range]),
-                   age.range), Csize = 0.55, AxisFM = "d", AxisBI = 10)
+                   age.range), 
+        Csize = 0.55, Clab = "Edad", Llab = "Hombres", Rlab = "Mujeres",
+        Laxis = seq(0, max(as.numeric(country[country$sexo == "Hombres", age.range]),
+                           as.numeric(country[country$sexo == "Mujeres", age.range])), 
+                    len = 3))
 ```
 
 
@@ -141,7 +146,8 @@ dev.off()
 Realizar un mapa de España donde la intensidad de los colores de las comunidades autónomas estén determinados en función de la población. Utilizar una paleta de $4$ colores rojizos. Guardar el mapa en un archivo externo.
 
 ```{r}
-# TODO
+mapSHP<-readShapePoly( fn ='spain_regions_ind')
+spplot(mapSHP["SHAPE_AREA"], auto.key=F, col.regions="white", colorkey=F)
 ```
 
 
