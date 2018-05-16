@@ -146,8 +146,30 @@ dev.off()
 Realizar un mapa de España donde la intensidad de los colores de las comunidades autónomas estén determinados en función de la población. Utilizar una paleta de $4$ colores rojizos. Guardar el mapa en un archivo externo.
 
 ```{r}
-mapSHP<-readShapePoly( fn ='spain_regions_ind')
-spplot(mapSHP["SHAPE_AREA"], auto.key=F, col.regions="white", colorkey=F)
+mapSHP <- readShapePoly(fn = 'spain_regions_ind')
+
+ccaa.total <- sapply(unique(ccaa$Region), function(x) {
+  sum(ccaa[ccaa$Region == x, age.range])
+})
+ccaa.total.intervals <- seq(min(ccaa.total), 
+                            max(ccaa.total), length = 5)
+
+poblacion <- sapply(mapSHP$COM, function(x) {
+    i <- match(x, sprintf("CA%02d", ccaa$codigo.ccaa))
+    if (is.na(i) | ccaa.total[i] < ccaa.total.intervals[2]) {
+      "red1"
+    } else if (ccaa.total[i] < ccaa.total.intervals[3]) {
+      "red2"
+    } else if (ccaa.total[i] < ccaa.total.intervals[4]) {
+      "red3"
+    } else {
+      "red4"
+    }
+})
+
+mapSHP@data <- cbind(poblacion, mapSHP@data)
+spplot(mapSHP["poblacion"], col.regions = paste0("red", 1:4), 
+       colorkey = FALSE, auto.key = FALSE)
 ```
 
 
@@ -156,6 +178,28 @@ spplot(mapSHP["SHAPE_AREA"], auto.key=F, col.regions="white", colorkey=F)
 Realizar un mapa de España donde la intensidad de los colores de las comunidades autónomas estén determinados en función de la población menor que $20$ años. Utilizar una paleta de $4$ colores azulados. Guardar el mapa en un archivo externo.
 
 ```{r}
-# TODO
+mapSHP <- readShapePoly( fn ='spain_regions_ind')
+
+ccaa.total.less.20 <- sapply(unique(ccaa$Region), function(x) {
+  sum(ccaa[ccaa$Region == x, age.range.less.20])
+})
+ccaa.total.intervals.less.20 <- seq(min(ccaa.total.less.20), 
+                                    max(ccaa.total.less.20), length = 5)
+poblacion <- sapply(mapSHP$COM, function(x) {
+    i <- match(x, sprintf("CA%02d", ccaa$codigo.ccaa))
+    if (is.na(i) | ccaa.total.less.20[i] < ccaa.total.intervals.less.20[2]) {
+      "blue1"
+    } else if (ccaa.total.less.20[i] < ccaa.total.intervals.less.20[3]) {
+      "blue2"
+    } else if (ccaa.total.less.20[i] < ccaa.total.intervals.less.20[4]) {
+      "blue3"
+    } else {
+      "blue4"
+    }
+})
+
+mapSHP@data <- cbind(poblacion, mapSHP@data)
+spplot(mapSHP["poblacion"], col.regions = paste0("blue", 1:4), 
+       colorkey = FALSE, auto.key = FALSE)
 ```
 
