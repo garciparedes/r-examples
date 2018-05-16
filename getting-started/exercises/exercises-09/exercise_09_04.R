@@ -17,7 +17,7 @@ Tipify <- function(sample.mean, mu, dev, n) {
 }
 
 
-Simulate <- function(B, n, Generator, GeneratorMu, GeneratorSd, ...) {
+Simulate <- function(B, n, Generator, GeneratorMu, GeneratorSd, breaks = 20, ...) {
   s <- matrix(Generator(B * n, ...),
                      nrow = B, ncol = n)
 
@@ -27,13 +27,14 @@ Simulate <- function(B, n, Generator, GeneratorMu, GeneratorSd, ...) {
   s.means <- rowMeans(s)
   s.means.tipified <- Tipify(s.means, mu, dev, n)
 
-  hist(s.means.tipified, prob = TRUE, breaks = sqrt(B), cex.main = 0.85,
+  hist(s.means.tipified, prob = TRUE, breaks = breaks, cex.main = 0.85,
+       xlab="x-variable", col = "lightgray",
        main = paste("Histograma de la media de ", B,
                     "medias muestrales de tamaño", n,
                     "tipificadas. \n X_raya:",
                     round(mean(s.means.tipified), digits = 4),
                     "  S_x:", round(sd(s.means.tipified), digits = 4)))
-  curve(dnorm(x), add = TRUE)
+  curve(dnorm(x), add = TRUE, col = "darkblue",  lwd=2)
 }
 
 NormalMu <- function(...) {
@@ -64,7 +65,7 @@ WeibullSd <- function(...) {
   sqrt(l$scale ^ 2 * ( gamma(1 + 2 / l$shape) - gamma(1 + 1 / l$shape) ^ 2 ))
 }
 
+Simulate(200, 20, rnorm, NormalMu, NormalSd, mean = 20, sd = 2)
 Simulate(200, 20, rbinom, BinomMu, BinomSd, size = 20, prob = 0.03)
 Simulate(200, 20, rbinom, BinomMu, BinomSd, size = 20, prob = 0.8)
-Simulate(200, 20, rnorm, NormalMu, NormalSd, mean = 20, sd = 2)
 Simulate(200, 20, rweibull, WeibullMu, WeibullSd, shape = 15, scale = 5)
