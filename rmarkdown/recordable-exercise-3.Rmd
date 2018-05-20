@@ -163,9 +163,15 @@ dev.off()
 
 Realizar un mapa de España donde la intensidad de los colores de las comunidades autónomas estén determinados en función de la población. Utilizar una paleta de $4$ colores rojizos. Guardar el mapa en un archivo externo.
 
-```{r}
-mapSHP <- readShapePoly(fn = 'spain_regions_ind')
 
+```{r}
+mapSHP <- 
+  readShapePoly( 
+    fn = paste0(path, 'mapas_completo_municipal/spain_regions_ind')
+  )
+```
+
+```{r}
 ccaa.total <- sapply(unique(ccaa$Region), function(x) {
   sum(ccaa[ccaa$Region == x, age.range])
 })
@@ -196,14 +202,12 @@ spplot(mapSHP["poblacion"], col.regions = paste0("red", 1:4),
 Realizar un mapa de España donde la intensidad de los colores de las comunidades autónomas estén determinados en función de la población menor que $20$ años. Utilizar una paleta de $4$ colores azulados. Guardar el mapa en un archivo externo.
 
 ```{r}
-mapSHP <- readShapePoly( fn ='spain_regions_ind')
-
 ccaa.total.less.20 <- sapply(unique(ccaa$Region), function(x) {
   sum(ccaa[ccaa$Region == x, age.range.less.20])
 })
 ccaa.total.intervals.less.20 <- seq(min(ccaa.total.less.20), 
                                     max(ccaa.total.less.20), length = 5)
-poblacion <- sapply(mapSHP$COM, function(x) {
+poblacion.less <- sapply(mapSHP$COM, function(x) {
     i <- match(x, sprintf("CA%02d", ccaa$codigo.ccaa))
     if (is.na(i) | ccaa.total.less.20[i] < ccaa.total.intervals.less.20[2]) {
       "blue1"
@@ -216,8 +220,8 @@ poblacion <- sapply(mapSHP$COM, function(x) {
     }
 })
 
-mapSHP@data <- cbind(poblacion, mapSHP@data)
-spplot(mapSHP["poblacion"], col.regions = paste0("blue", 1:4), 
+mapSHP@data <- cbind(poblacion.less, mapSHP@data)
+spplot(mapSHP["poblacion.less"], col.regions = paste0("blue", 1:4), 
        colorkey = FALSE, auto.key = FALSE)
 ```
 
