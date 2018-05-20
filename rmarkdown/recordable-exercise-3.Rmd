@@ -16,6 +16,7 @@ rm(list = ls())
 ```{r}
 library(pyramid)
 library(lattice)
+library(sp)
 library(maptools)
 ```
 
@@ -74,21 +75,24 @@ ccaa <- padron[padron$tipo.region == "ccaa", ]
 ccaa.df <- 
   data.frame(ccaa[, c("Region", "sexo")], 
              "Total.menores.20" = rowSums(ccaa[, age.range.less.20]))
+```
 
+```{r}
 # ccaa.spread.df <- 
 #   tidyr::spread(ccaa.df, key = sexo, value = "Total.menores.20" )
-ccaa.spread.df <- 
+(ccaa.spread.df <- 
   data.frame(Region  = ccaa[, "Region"], 
              Hombres = ccaa.df[ccaa.df$sexo == "Hombres", "Total.menores.20"],
-             Mujeres = ccaa.df[ccaa.df$sexo == "Mujeres", "Total.menores.20"])
+             Mujeres = ccaa.df[ccaa.df$sexo == "Mujeres", "Total.menores.20"]))
 ```
 
 ```{r}
 country <- padron[padron$Region == "TOTAL ESPAÑA",]
+rownames(country) <- NULL
 
-country.df <- 
-  data.frame(country[, "sexo"], 
-             "Total.menores.20" = rowSums(country[, age.range.less.20]))
+(country.df <- 
+  data.frame(Sexo               = country[, "sexo"], 
+             "Total.menores.20" = rowSums(country[, age.range.less.20])))
 ```
 
 
@@ -120,6 +124,20 @@ pyramid(data.frame(as.numeric(country[country$sexo == "Hombres", age.range]),
 ### Ejercicio 3.5
 
 Representar un gráfico con los datos de población de España frente a la edad (marcas de clase) para cada sexo. Realizar una figura similar para todas las comunidades autónomas indicando a cual se refiere de manera adecuada. Seguidamente, grabar todas las figuras en el archivo *"figuras-poblacion-examen.pdf"*.
+
+
+```{r}
+a <- tidyr::gather(country[, c("sexo", age.range)], 
+                   key = "Edad", value = "Población", age.range)
+a$Edad <- as.numeric(gsub("^([0-9]+).*","\\1", a$Edad))
+```
+
+```{r}
+(p <- xyplot(Población ~ Edad, groups = sexo, 
+             data = a, 
+             type = "l"))
+```
+
 
 ```{r}
 a <- tidyr::gather(ccaa[, c("Region", "sexo", age.range)], 
