@@ -192,7 +192,7 @@ Simulate(200, 20, rbinom, BinomMu, BinomDev, breaks = 10,
 
 
 # Simulación W(5, 15)
-Simulate(2000, 200, rweibull, WeibullMu, WeibullDev, shape = 15, scale = 5)
+Simulate(2000, 20, rweibull, WeibullMu, WeibullDev, shape = 15, scale = 5)
 
 # Puesto que la distribución de Weibull es continua y está compuesta como suma
 # de variables Exponenciales, la aproximación a la normal es buena. Esta mejora
