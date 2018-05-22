@@ -1,12 +1,15 @@
 #
 # Title:
-#   Ejercicios Computación Estadística - Hoja 9 - Ejercicio 4
+#   Computación Estadística - Hoja 9 - Ejercicio 4
 #
 # Author:
 #   Sergio García Prado - garciparedes.me
 #
 # Date:
 #   May 2018
+#
+# URL:
+#   https://github.com/garciparedes/r-examples/blob/master/getting-started/exercises/exercises_09/exercise_09_04.R
 #
 
 rm(list = ls())
