@@ -1,0 +1,231 @@
+---
+title: "Ejercicio para Grabar"
+author: "Sergio García Prado - [garciparedes.me](https://garciparedes.me)"
+date: "5/14/2018"
+output: html_document
+---
+
+## Ejercicio 3
+
+El *INE* publica cada año los datos de población utilizando el padrón continuo. El archivo **padron-2017.xls** contiene datos de totales por provincias y comunidades autónomas (ccaa) para hombres y para mujeres en los distintos tramos de edad.
+
+```{r}
+rm(list = ls())
+```
+
+```{r}
+library(pyramid)
+library(lattice)
+library(sp)
+library(maptools)
+```
+
+```{r}
+path <- './../datasets/'
+```
+
+
+
+### Ejercicio 3.1
+
+El archivo **padron.R** que contiene un objeto llamado *padron* con los datos del padron que aparecen en el archivo **padron-2017.xls** y adiccionalmente una serie de columnas que indican los códigos ine de comunidades autónomas y provincias. Estos datos también se encuentran en el archivo **padron.Rdata**. Leer uno de estos archivos.
+
+```{r}
+padron.path.r <- paste0(path, "padron.R")
+padron.path.rdata <- paste0(path, "padron.Rdata")
+```
+
+```{r}
+CleanCharacters <- function(x, from = "latin1", to = "UTF-8") {
+  if (!any(Encoding(x) == to)) {
+    x <- gsub("^[ ]*", "",iconv(x, from = from, to = to))
+  }
+  return(x)
+}
+```
+
+
+```{r}
+load(padron.path.rdata)
+#source(padron.path.r)
+padron$Region <- CleanCharacters(padron$Region)
+rownames(XX) <- CleanCharacters(rownames(XX))
+```
+
+
+```{r}
+head(padron, 10)
+```
+
+```{r}
+head(XX, 10)
+```
+### Ejercicio 3.2
+
+Calcular el número total de hombres y de mujeres menores de $20$ años en cada comunidad autónoma. También calcular el número total de mujeres y de hombres menores de $20$ años en España.
+
+```{r}
+(age.range <- colnames(padron)[3:23])
+```
+
+```{r}
+(age.range.less.20 <- age.range[1:4])
+```
+
+
+```{r}
+ccaa <- padron[padron$tipo.region == "ccaa", ]
+
+ccaa.df <- 
+  data.frame(ccaa[, c("Region", "sexo")], 
+             "Total.menores.20" = rowSums(ccaa[, age.range.less.20]))
+```
+
+```{r}
+# ccaa.spread.df <- 
+#   tidyr::spread(ccaa.df, key = sexo, value = "Total.menores.20" )
+(ccaa.spread.df <- 
+  data.frame(Region  = ccaa[, "Region"], 
+             Hombres = ccaa.df[ccaa.df$sexo == "Hombres", "Total.menores.20"],
+             Mujeres = ccaa.df[ccaa.df$sexo == "Mujeres", "Total.menores.20"]))
+```
+
+```{r}
+country <- padron[padron$Region == "TOTAL ESPAÑA",]
+rownames(country) <- NULL
+
+(country.df <- 
+  data.frame(Sexo               = country[, "sexo"], 
+             "Total.menores.20" = rowSums(country[, age.range.less.20])))
+```
+
+
+### Ejercicio 3.3
+
+Instalar el paquete *pyramid* para después leer la ayuda y ejecutar el primer ejemplo de la función `pyramid()`.
+
+```{r}
+pyramid(data.frame(c(34, 19, 11, 11, 8, 7, 5),
+                   c(26, 25, 16, 11, 7, 5, 1),
+                   c('0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-')))
+```
+
+### Ejercicio 3.4
+
+Utilizando los datos del padrón publicado en 2017 relativos a toda España realizar la pirámide de población de España utilizando la función `pyramid()`.
+
+```{r}
+pyramid(data.frame(as.numeric(country[country$sexo == "Hombres", age.range]),
+                   as.numeric(country[country$sexo == "Mujeres", age.range]),
+                   age.range), 
+        Csize = 0.55, Clab = "Edad", Llab = "Hombres", Rlab = "Mujeres",
+        Laxis = seq(0, max(as.numeric(country[country$sexo == "Hombres", age.range]),
+                           as.numeric(country[country$sexo == "Mujeres", age.range])), 
+                    len = 3))
+```
+
+
+### Ejercicio 3.5
+
+Representar un gráfico con los datos de población de España frente a la edad (marcas de clase) para cada sexo. Realizar una figura similar para todas las comunidades autónomas indicando a cual se refiere de manera adecuada. Seguidamente, grabar todas las figuras en el archivo *"figuras-poblacion-examen.pdf"*.
+
+
+```{r}
+a <- tidyr::gather(country[, c("sexo", age.range)], 
+                   key = "Edad", value = "Población", age.range)
+a$Edad <- as.numeric(gsub("^([0-9]+).*","\\1", a$Edad))
+```
+
+```{r}
+(p <- xyplot(Población ~ Edad, groups = sexo, 
+             data = a, 
+             type = "l"))
+```
+
+
+```{r}
+a <- tidyr::gather(ccaa[, c("Region", "sexo", age.range)], 
+                   key = "Edad", value = "Población", age.range)
+
+a$Edad <- as.numeric(gsub("^([0-9]+).*","\\1", a$Edad))
+```
+
+```{r}
+(p <- xyplot(Población ~ Edad | Region, groups = sexo, data = a, type = "l", 
+       layout = c(2, 2), auto.key = list(points = T, columns = 2), 
+       scales=list(relation="free")))
+```
+
+```{r}
+pdf(file = "figuras-poblacion-examen.pdf")    
+p
+dev.off()  
+```
+
+
+### Ejercicio 3.6
+
+Realizar un mapa de España donde la intensidad de los colores de las comunidades autónomas estén determinados en función de la población. Utilizar una paleta de $4$ colores rojizos. Guardar el mapa en un archivo externo.
+
+
+```{r}
+mapSHP <- 
+  readShapePoly( 
+    fn = paste0(path, 'mapas_completo_municipal/spain_regions_ind')
+  )
+```
+
+```{r}
+ccaa.total <- sapply(unique(ccaa$Region), function(x) {
+  sum(ccaa[ccaa$Region == x, age.range])
+})
+ccaa.total.intervals <- seq(min(ccaa.total), 
+                            max(ccaa.total), length = 5)
+
+poblacion <- sapply(mapSHP$COM, function(x) {
+    i <- match(x, sprintf("CA%02d", ccaa$codigo.ccaa))
+    if (is.na(i) | ccaa.total[i] < ccaa.total.intervals[2]) {
+      "red1"
+    } else if (ccaa.total[i] < ccaa.total.intervals[3]) {
+      "red2"
+    } else if (ccaa.total[i] < ccaa.total.intervals[4]) {
+      "red3"
+    } else {
+      "red4"
+    }
+})
+
+mapSHP@data <- cbind(poblacion, mapSHP@data)
+spplot(mapSHP["poblacion"], col.regions = paste0("red", 1:4), 
+       colorkey = FALSE, auto.key = FALSE)
+```
+
+
+### Ejercicio 3.7
+
+Realizar un mapa de España donde la intensidad de los colores de las comunidades autónomas estén determinados en función de la población menor que $20$ años. Utilizar una paleta de $4$ colores azulados. Guardar el mapa en un archivo externo.
+
+```{r}
+ccaa.total.less.20 <- sapply(unique(ccaa$Region), function(x) {
+  sum(ccaa[ccaa$Region == x, age.range.less.20])
+})
+ccaa.total.intervals.less.20 <- seq(min(ccaa.total.less.20), 
+                                    max(ccaa.total.less.20), length = 5)
+poblacion.less <- sapply(mapSHP$COM, function(x) {
+    i <- match(x, sprintf("CA%02d", ccaa$codigo.ccaa))
+    if (is.na(i) | ccaa.total.less.20[i] < ccaa.total.intervals.less.20[2]) {
+      "blue1"
+    } else if (ccaa.total.less.20[i] < ccaa.total.intervals.less.20[3]) {
+      "blue2"
+    } else if (ccaa.total.less.20[i] < ccaa.total.intervals.less.20[4]) {
+      "blue3"
+    } else {
+      "blue4"
+    }
+})
+
+mapSHP@data <- cbind(poblacion.less, mapSHP@data)
+spplot(mapSHP["poblacion.less"], col.regions = paste0("blue", 1:4), 
+       colorkey = FALSE, auto.key = FALSE)
+```
+
