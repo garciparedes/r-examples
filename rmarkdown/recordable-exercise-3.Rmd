@@ -47,15 +47,19 @@ CleanCharacters <- function(x, from = "latin1", to = "UTF-8") {
 
 ```{r}
 load(padron.path.rdata)
+#source(padron.path.r)
 padron$Region <- CleanCharacters(padron$Region)
 rownames(XX) <- CleanCharacters(rownames(XX))
 ```
 
 
 ```{r}
-
+head(padron, 10)
 ```
 
+```{r}
+head(XX, 10)
+```
 ### Ejercicio 3.2
 
 Calcular el número total de hombres y de mujeres menores de $20$ años en cada comunidad autónoma. También calcular el número total de mujeres y de hombres menores de $20$ años en España.

@@ -335,8 +335,66 @@ padron.path.rdata &lt;- paste0(path, &quot;padron.Rdata&quot;)</code></pre>
   return(x)
 }</code></pre>
 <pre class="r"><code>load(padron.path.rdata)
+#source(padron.path.r)
 padron$Region &lt;- CleanCharacters(padron$Region)
 rownames(XX) &lt;- CleanCharacters(rownames(XX))</code></pre>
+<pre class="r"><code>head(padron, 10)</code></pre>
+<pre><code>##          Region    Total     0-4     5-9   10-14   15-19   20-24   25-29
+## 2  TOTAL ESPAÑA 22817410 1089555 1262014 1222236 1138729 1168620 1289043
+## 3     ANDALUCÍA  4129294  207009  244670  240424  225084  234817  254068
+## 4       Almería   359168   19992   21839   20016   19303   20650   24152
+## 5         Cádiz   612028   30453   36663   37387   33885   34246   37297
+## 6       Córdoba   386556   18032   21056   21701   21372   23211   24773
+## 7       Granada   449663   21429   25137   25437   24675   26298   28403
+## 8        Huelva   256858   12374   15346   14516   13457   14606   15918
+## 9          Jaén   318211   13889   16563   17275   18078   20442   21099
+## 10       Málaga   798612   40361   47494   46553   42207   41960   45932
+## 11      Sevilla   948198   50479   60572   57539   52107   53404   56494
+##      30-34   35-39   40-44   45-49   50-54   55-59   60-64   65-69  70-74
+## 2  1507217 1904082 2021828 1885567 1749416 1541691 1271220 1119516 940538
+## 3   283570  343262  353061  336105  316410  273431  218080  186099 156431
+## 4    28055   33952   32814   28684   25537   21859   17220   14745  11498
+## 5    41614   50024   52557   50860   47231   41742   33373   27877  23198
+## 6    25460   29067   29764   30366   30773   27519   21618   17391  14994
+## 7    30557   36569   36852   35586   35034   30748   23922   20156  17174
+## 8    18309   22381   22785   21237   19056   16841   13210   11850   9571
+## 9    20712   23263   24060   25342   25737   23112   17694   13806  11283
+## 10   54342   67258   70389   65941   60960   51551   42735   38908  33313
+## 11   64521   80748   83840   78089   72082   60059   48308   41366  35400
+##     75-79  80-84  85-89  90-94 95-99 100 y mas    sexo tipo.region
+## 2  664151 578137 324797 114518 21292      3243 Hombres        pais
+## 3  107972  86948  44919  13852  2513       569 Hombres        ccaa
+## 4    7786   6375   3306   1144   202        39 Hombres   provincia
+## 5   15080  11322   5357   1552   262        48 Hombres   provincia
+## 6   11073  10102   5935   1943   356        50 Hombres   provincia
+## 7   12548  10984   5942   1860   292        60 Hombres   provincia
+## 8    6423   5387   2601    809   155        26 Hombres   provincia
+## 9    9503   9046   5415   1572   278        42 Hombres   provincia
+## 10  22194  15795   7682   2368   475       194 Hombres   provincia
+## 11  23365  17937   8681   2604   493       110 Hombres   provincia
+##    codigo.provincia codigo.ccaa
+## 2                NA          NA
+## 3                NA           1
+## 4                 4          NA
+## 5                11          NA
+## 6                14          NA
+## 7                18          NA
+## 8                21          NA
+## 9                23          NA
+## 10               29          NA
+## 11               41          NA</code></pre>
+<pre class="r"><code>head(XX, 10)</code></pre>
+<pre><code>##                         total.hombres total.mujeres
+## ANDALUCÍA                     4129294       4241074
+## ARAGÓN                         645271        662124
+## ASTURIAS, PRINCIPADO DE        493774        540907
+## BALEARS, ILLES                 554652        560603
+## CANARIAS                      1044430       1062194
+## CANTABRIA                      281764        298376
+## CASTILLA Y LEÓN               1194642       1229753
+## CASTILLA - LA MANCHA          1016383       1014278
+## CATALUÑA                      3708029       3843256
+## COMUNITAT VALENCIANA          2433000       2502010</code></pre>
 </div>
 <div id="ejercicio-3.2" class="section level3">
 <h3>Ejercicio 3.2</h3>
