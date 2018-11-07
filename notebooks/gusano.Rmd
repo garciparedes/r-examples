@@ -1,0 +1,94 @@
+---
+title: "Aplicación del algoritmo IRWLS al ajuste de un modelo logístico"
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+---
+## La cipermetrina contra el gusano del tabaco
+### Sergio García Prado
+```{r}
+rm(list = ls())
+```
+```{r}
+x <- as.integer(c(0, 1, 2, 3, 4, 5))	### dosis de cipermetrina
+y <- as.integer(c(1, 5, 17, 23, 33, 36)) ### muertos
+n <- as.integer(rep(40, 6))	### numero total en cada grupo
+
+rbind( x, y, n-y, n)
+```
+Valores de predición y predictores.
+```{r}
+Y <- y/n	### proporcion observada de muertos
+X <- cbind(rep(1,6), x )	### Matriz de diseño
+```
+#### Algoritmo IRWLS con número de iteracciones prefijado 
+```{r}
+beta <- runif(2) # elegimos al azar los parámetros
+for (i in 1:3) {
+  eta <- c(X %*% beta)
+  mu <- exp(eta)/(1+exp(eta))
+  nz <- eta + (Y - mu) / (mu * (1 - mu))
+  w <- mu * (1 - mu)
+  beta <- solve(t(X) %*% diag(w) %*% X) %*% t(X) %*% diag(w) %*% nz
+}
+```
+Estimación obtenida.
+```{r}
+beta 
+```
+Matriz de varianzas-covarianzas del estimador.
+```{r}
+(beta.V <- solve(t(X) %*% diag(w) %*%X))
+```
+Errores Estándar.
+```{r}
+sqrt(diag(beta.V))
+```
+#### Algoritmo IRWLS con parada por convergencia 
+```{r}
+
+MAX.ITER <- 100
+
+beta <- runif(2)
+beta.old <- rep(Inf, 2)
+i <- 0
+while (i < MAX.ITER & max(abs(beta - beta.old)) > 10e-3) {
+  beta.old <- beta
+  
+  eta <- c(X %*% beta)
+  mu <- exp(eta)/(1+exp(eta))
+  nz <- eta + (Y - mu) / (mu * (1 - mu))
+  w <- mu * (1 - mu)
+  beta <- solve(t(X) %*% diag(w) %*% X) %*% t(X) %*% diag(w) %*% nz
+  if (any(is.na(beta))) {
+    beta <- runif(2)
+  }
+  i <- i + 1
+}
+```
+Estimación obtenida.
+```{r}
+beta 
+```
+Matriz de var-cov del estimador.
+```{r}
+(beta.V <- solve(t(X) %*% diag(w) %*%X))
+```
+Errores Estándar.
+```{r}
+sqrt(diag(beta.V))
+```
+Grafico de la proporcion de muertes frente a la dosis.
+```{R}
+plot(x, Y, pch = 20)
+lines(x, mu, col="red")
+lines(x, predict(lm(Y ~ x)), col = "gray")
+```
+
+#### Aplicación de la funcion glm de R para hacer el ajuste anterior.
+```{r}
+logitmod <- glm(Y ~ x, family = binomial)
+summary(logitmod)
+```
