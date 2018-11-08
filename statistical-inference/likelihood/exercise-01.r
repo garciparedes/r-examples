@@ -44,10 +44,9 @@ p.hat + c(-1, 1) * qnorm(1 - alpha / 2) * sqrt(p.hat.var)
 
 ## c)
 ####
-(p.0 <- 1 / 3)
-# 0.333333333333333
+(p.zero <- 1 / 3)
 
-(W <- (p.hat - p.0) ^ 2 / p.hat.var)
+(W <- (p.hat - p.zero) ^ 2 / p.hat.var)
 # 26.3616557734205
 
 (W.pvalue <- 1 - pchisq(W, df=1))
@@ -56,7 +55,7 @@ p.hat + c(-1, 1) * qnorm(1 - alpha / 2) * sqrt(p.hat.var)
 
 ## d)
 
-(LRT <- 2 * (LogLikelihood(p.hat, y, n) - LogLikelihood(p.0, y, n)))
+(LRT <- 2 * (LogLikelihood(p.hat, y, n) - LogLikelihood(p.zero, y, n)))
 # 17.345619477233
 
 (LRT.pvalue <- 1 - pchisq(LRT, df=1))
