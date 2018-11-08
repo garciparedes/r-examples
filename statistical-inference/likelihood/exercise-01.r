@@ -36,15 +36,14 @@ opt <- optim(runif(1), NegativeLogLikelihood, y = y, n = n, hessian = TRUE,
 (p.hat.var <- 1 / opt$hessian[1])
 # 0.001274903
 
-## Wald's Confidence Interval at (1 - alpha)% level
-
+## Wald's Confidence Interval at (1 - alpha)% level.
 p.hat + c(-1, 1) * qnorm(1 - alpha / 2) * sqrt(p.hat.var)
 # 0.0800179459640629 0.219982054023264
 
 
 ## c)
 ####
-(p.zero <- 1 / 3)
+p.zero <- 1 / 3
 
 (W <- (p.hat - p.zero) ^ 2 / p.hat.var)
 # 26.3616557734205
