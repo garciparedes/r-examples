@@ -7,7 +7,7 @@ rm(list = ls())
 ####
 
 ##
-## Asyntotic distibution of p.hat as parameter p of Bin(n, p)
+## Asyntotic distibution of lambda.hat as parameter lambda of Pois(lambda)
 ## lambda.hat ~ N(lambda, lambda / n)
 ##
 
