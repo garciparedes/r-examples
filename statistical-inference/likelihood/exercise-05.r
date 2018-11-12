@@ -91,11 +91,17 @@ g.derivative <- function(theta) {
 
 g.zero <- 1
 
+## d)
+####
+
 (W <- (g.hat - g.zero) ^ 2 / g.hat.var)
 # 0.212370967966977
 
 (W.pvalue <- 1 - pchisq(W, df = 1))
 # 0.644915376840866
+
+## e)
+####
 
 LogLikelihoodH0 <- function(theta, x) {
   LogLikelihood(c(theta, theta ^ 2), x)
