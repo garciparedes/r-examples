@@ -35,10 +35,7 @@ opt <- optim(p.hat.initial[1:(k - 1)], NegativeLogLikelihood, y = y, k = k, hess
 ####
 
 LogLikelihood1H0 <- function(theta, y) {
-  l <- (y[1] * log(theta[1]) + y[2] * log(theta[1]) +
-        y[3] * log(theta[1]) + y[4] * log(theta[2]) +
-        y[5] * log(1 - 3 * theta[1] -  theta[2]))
-  return(l)
+  LogLikelihood(c(theta[1], theta[1], theta[1], theta[2]), y, 5)
 }
 
 
@@ -91,10 +88,7 @@ g1.derivative <- function(p) {
 
 
 LogLikelihood2H0 <- function(theta, y) {
-  l <- (y[1] * log(theta[1]) + y[2] * log(2 * theta[1]) +
-        y[3] * log(theta[1]) + y[4] * log(theta[2]) +
-        y[5] * log(1 - 3 * theta[1] -  2 * theta[2]))
-  return(l)
+  LogLikelihood(c(theta[1], 2 * theta[1], theta[2], theta[2]), y, 5)
 }
 
 
@@ -105,10 +99,10 @@ NegativeLogLikelihood2H0 <- function(...) {
 opt2.hzero <- optim(c(0.1, 0.1), NegativeLogLikelihood2H0, y = y, hessian = TRUE)
 
 (LRT2 <-  2 * (LogLikelihood(p.hat, y, k) - LogLikelihood2H0(opt2.hzero$par, y)))
-# 14.1496184456436
+# 5.01968859661113
 
 (LRT2.pvalue <- 1 - pchisq(LRT2, df = (k - 1) - 2))
-# 0.00084615396531218
+# 0.0812808938285899
 
 
 ## d)
