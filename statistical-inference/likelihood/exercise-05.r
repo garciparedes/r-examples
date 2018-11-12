@@ -107,11 +107,11 @@ LogLikelihoodH0 <- function(theta, x) {
   LogLikelihood(c(theta, theta ^ 2), x)
 }
 
-NegativeLikelihoodH0 <- function(...) {
+NegativeLogLikelihoodH0 <- function(...) {
   - LogLikelihoodH0(...)
 }
 
-opt.h0 <- optim(runif(1), NegativeLikelihoodH0, x = x,
+opt.h0 <- optim(runif(1), NegativeLogLikelihoodH0, x = x,
                 lower = 10e-3, method = "L-BFGS-B" )
 
 (LRT <- 2 * (LogLikelihood(theta.hat, x) - LogLikelihoodH0(opt.h0$par, x)))
