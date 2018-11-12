@@ -1,3 +1,4 @@
+
 ## Author: Sergio García Prado
 
 rm(list = ls())
@@ -10,8 +11,7 @@ n <- sum(y)
 
 
 LogLikelihood <- function(p, y, k) {
-  l <- sum(y[1:(k - 1)] * log(p)) + y[k] * log(1 - sum(p))
-  return(l)
+  sum(y[1:(k - 1)] * log(p)) + y[k] * log(1 - sum(p))
 }
 
 
@@ -34,8 +34,8 @@ opt <- optim(p.hat.initial[1:(k - 1)], NegativeLogLikelihood, y = y, k = k, hess
 ## a)
 ####
 
-LogLikelihood1H0 <- function(theta, y) {
-  LogLikelihood(c(theta[1], theta[1], theta[1], theta[2]), y, 5)
+LogLikelihood1H0 <- function(theta, y, k) {
+  LogLikelihood(c(theta[1], theta[1], theta[1], theta[2]), y, k)
 }
 
 
@@ -43,9 +43,9 @@ NegativeLogLikelihood1H0 <- function(...) {
   - LogLikelihood1H0(...)
 }
 
-opt1.hzero <- optim(c(0.1, 0.1), NegativeLogLikelihood1H0, y = y, hessian = TRUE)
+opt1.hzero <- optim(c(0.1, 0.1), NegativeLogLikelihood1H0, y = y, k = k, hessian = TRUE)
 
-(LRT1 <-  2 * (LogLikelihood(p.hat, y, k) - LogLikelihood1H0(opt1.hzero$par, y)))
+(LRT1 <-  2 * (LogLikelihood(p.hat, y, k) - LogLikelihood1H0(opt1.hzero$par, y, k)))
 # 0.286670914555231
 
 (LRT1.pvalue <- 1 - pchisq(LRT1, df = (k - 1) - 3))
@@ -87,8 +87,8 @@ g1.derivative <- function(p) {
 ####
 
 
-LogLikelihood2H0 <- function(theta, y) {
-  LogLikelihood(c(theta[1], 2 * theta[1], theta[2], theta[2]), y, 5)
+LogLikelihood2H0 <- function(theta, y, k) {
+  LogLikelihood(c(theta[1], 2 * theta[1], theta[2], theta[2]), y, k)
 }
 
 
@@ -96,9 +96,9 @@ NegativeLogLikelihood2H0 <- function(...) {
   - LogLikelihood2H0(...)
 }
 
-opt2.hzero <- optim(c(0.1, 0.1), NegativeLogLikelihood2H0, y = y, hessian = TRUE)
+opt2.hzero <- optim(c(0.1, 0.1), NegativeLogLikelihood2H0, y = y, k = k, hessian = TRUE)
 
-(LRT2 <-  2 * (LogLikelihood(p.hat, y, k) - LogLikelihood2H0(opt2.hzero$par, y)))
+(LRT2 <-  2 * (LogLikelihood(p.hat, y, k) - LogLikelihood2H0(opt2.hzero$par, y, k)))
 # 5.01968859661113
 
 (LRT2.pvalue <- 1 - pchisq(LRT2, df = (k - 1) - 2))
