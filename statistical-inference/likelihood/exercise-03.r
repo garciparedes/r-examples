@@ -42,8 +42,8 @@ opt <- optim(runif(2), NegativeLogLikelihood, y = y, n = n, hessian = TRUE,
 # 0.69999745777599 0.799999683303738
 
 (p.hat.var <- solve(opt$hessian))
-# 4.199970e-03	-2.387315e-14
-# -2.387315e-14	3.199878e-03
+# 0.004199941	0.000000000
+# 0.000000000	0.003199902
 
 g.transform <- c(-2, 1)
 
