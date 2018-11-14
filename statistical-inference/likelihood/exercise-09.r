@@ -89,9 +89,9 @@ theta.hat + c(-1, 1) * qnorm(1 - alpha / 2) * sqrt(theta.hat.var)
 ## We'll look for the intersection between LogLikelihood function and Chisq critic value.
 
 f <- function(theta, p, y, n, alpha, df) {
-   2 * (LogLikelihood(p, y, n) - LogLikelihoodH0(theta, y, n)) - qchisq(1 - alpha / 2, df = df) / 2
+   2 * (LogLikelihood(p, y, n) - LogLikelihoodH0(theta, y, n)) - qchisq(1 - alpha / 2, df = df)
 }
 
 c(uniroot(f, c(0, theta.hat), p.hat, y, n, alpha, df=2)$root,
   uniroot(f, c(theta.hat, 1), p.hat, y, n, alpha, df=2)$root)
-# 0.0284208783973581 0.0440214323667942
+# 0.0234000324864232 0.0513203185453315
