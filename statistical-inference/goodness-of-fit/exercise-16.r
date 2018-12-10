@@ -1,5 +1,5 @@
 ## Author: Sergio García Prado
-## Title: Statistical Inference - Goodness of Fit - Exercise 20
+## Title: Statistical Inference - Goodness of Fit - Exercise 16
 
 
 rm(list = ls())
@@ -9,7 +9,7 @@ CummulativeFunction <- function(x) {
     0,
   ifelse(1 < x,
     1,
-  x ^ 2 * (3 - 2 * x)))
+  (x ^ 2) * (3 - 2 * x)))
 }
 
 observed <- c(95, 80, 40, 52, 60, 80, 82, 58, 65, 50)

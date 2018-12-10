@@ -1,5 +1,5 @@
 ## Author: Sergio García Prado
-## Title: Statistical Inference - Goodness of Fit - Exercise 20
+## Title: Statistical Inference - Goodness of Fit - Exercise 18
 
 
 rm(list = ls())
