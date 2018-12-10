@@ -16,10 +16,8 @@ observed <- c(38, 55, 54, 41, 62)
 (expected <- n * 1 / k )
 # 50
 
-ks <- ks.test(observed, expected)
+(Q <- sum((observed - expected) ^ 2 / expected))
+# 8.2
 
-(D <- ks$statistic)
-# 0.6,
-
-(pvalue <- ks$p.value)
-# 1
+(pvalue <- 1 - pchisq(Q, df = k - 1))
+# 0.0845206445489823
