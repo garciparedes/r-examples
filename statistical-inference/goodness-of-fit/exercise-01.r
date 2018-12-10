@@ -1,13 +1,22 @@
+## Author: Sergio García Prado
+## Title: Statistical Inference - Goodness of Fit - Exercise 01
+
 rm(list = ls())
 
 
-y <- c(967, 1008, 975, 1022, 1003, 989, 1001, 981, 1043, 1011)
-n <- sum(y)
-k <- length(y)
+observed <- c(967, 1008, 975, 1022, 1003, 989, 1001, 981, 1043, 1011)
 
+(n <- sum(observed))
+# 10000
 
-e <- 1 / k * n
+(k <- length(observed))
+# 10
 
-Q <- sum((y - e) ^ 2 / e)
+(expected <- 1 / k * n)
+# 1000
+
+(Q <- sum((observed - expected) ^ 2 / expected))
+# 4.724
 
 (pvalue <- 1 - pchisq(Q, k - 1))
+# 0.857673749486367

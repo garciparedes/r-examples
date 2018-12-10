@@ -1,3 +1,6 @@
+## Author: Sergio García Prado
+## Title: Statistical Inference - Goodness of Fit - Exercise 12
+
 rm(list = ls())
 
 y <- c(40, 24, 16, 14, 6)
