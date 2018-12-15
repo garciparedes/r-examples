@@ -1,5 +1,5 @@
 ## Author: Sergio García Prado
-## Title: Durret - Exercise 4.3
+## Title: Durret - Exercise 4.9
 
 rm(list = ls())
 
