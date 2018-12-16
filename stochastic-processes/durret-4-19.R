@@ -23,3 +23,8 @@ A <- cbind(Q[,1:(nrow(Q) - 1) ], rep(1, nrow(Q)))
 (stationary <- solve(A)[nrow(A), ])
 # 0.0648758236188546 0.162189559047136 0.20273694880892
 # 0.253421186011151  0.316776482513938
+
+
+
+(comming.average <- l * (1 - stationary[length(stationary)]))
+# 3.41611758743031

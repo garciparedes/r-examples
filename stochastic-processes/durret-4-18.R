@@ -26,5 +26,5 @@ A <- cbind(Q[,1:(nrow(Q) - 1) ], rep(1, nrow(Q)))
 # 0.111111111111111 0.222222222222222 0.222222222222222
 # 0.222222222222222 0.222222222222222
 
-(comming.average <- l * (1 - stationary[4]))
+(comming.average <- l * (1 - stationary[length(stationary)]))
 # 15.5555555555556
