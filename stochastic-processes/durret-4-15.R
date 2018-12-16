@@ -9,8 +9,8 @@ Q <- matrix(c(  -1,      1,    0,     0,
                  0,      0, 3/20, -3/20),
             4, 4, byrow = TRUE)
 
+## Should be solved via detailed balance equations...
 A <- cbind(Q[,1:(nrow(Q) - 1) ], rep(1, nrow(Q)))
-
 (stationary <- solve(A)[nrow(A), ])
 # 0.00112654900488171 0.0225309800976342 0.225309800976342 0.751032669921142
 

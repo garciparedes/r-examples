@@ -11,8 +11,8 @@ Q <- matrix(c( -3,     3,     0,    0,    0,    0,
                 0,     0,     0,    0,  3/6, -3/6),
             6, 6, byrow = TRUE)
 
+## Should be solved via detailed balance equations...
 A <- cbind(Q[,1:(nrow(Q) - 1) ], rep(1, nrow(Q)))
-
 (stationary <- solve(A)[nrow(A), ])
 # 7.8021377857533e-05 0.00140438480143559 0.0126394632129203 0.075836779277522
 # 0.303347117110088 0.606694234220176
