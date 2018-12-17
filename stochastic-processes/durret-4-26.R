@@ -22,6 +22,7 @@ QGenerator <- function(l, m1, m2) {
 A <- cbind(Q[,1:(nrow(Q) - 1) ], rep(1, nrow(Q)))
 
 (stationary <- solve(A)[nrow(A), ])
+# 0.333333333333333 0.222222222222222 0.333333333333333 0.111111111111111
 
 
 (R <- Q[2:4, 2:4])
@@ -30,4 +31,8 @@ A <- cbind(Q[,1:(nrow(Q) - 1) ], rep(1, nrow(Q)))
 #  2	 4	-6
 
 
-sum(Q[1, 2:nrow(Q)] / sum(Q[1, 2:nrow(Q)]) * -rowSums(solve(R)))
+sum(Q[1, 2:nrow(Q)] / - Q[1, 1]  * -rowSums(solve(R)))
+# 1
+
+
+(1 - stationary[1]) / stationary[1]

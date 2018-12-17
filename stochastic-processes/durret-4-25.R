@@ -16,5 +16,5 @@ Q <- matrix(c(-4,  2, 2,
 # -4	 1
 #  0	-5
 
-
-sum(Q[1, 2:nrow(Q)] / sum(Q[1, 2:nrow(Q)]) * rowSums(solve(-R)))
+sum(Q[1, 2:nrow(Q)] / - Q[1, 1] * rowSums(solve(-R)))
+# 0.25
