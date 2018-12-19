@@ -33,6 +33,3 @@ A <- cbind(Q[,1:(nrow(Q) - 1) ], rep(1, nrow(Q)))
 
 sum(Q[1, 2:nrow(Q)] / - Q[1, 1]  * -rowSums(solve(R)))
 # 1
-
-
-(1 - stationary[1]) / stationary[1]
