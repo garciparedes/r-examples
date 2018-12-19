@@ -13,11 +13,16 @@ QGenerator <- function(l, m1, m2) {
   return(Q)
 }
 
+
 (Q <- QGenerator(2, 4, 2))
 # -2	 2	 0	 0
 #  0	-4	 4	 0
 #  2	 0	-4	 2
 #  0	 2	 4	-6
+
+(rate <- - diag(Q))
+# 2 4 4 6
+
 
 A <- cbind(Q[,1:(nrow(Q) - 1) ], rep(1, nrow(Q)))
 
@@ -30,6 +35,14 @@ A <- cbind(Q[,1:(nrow(Q) - 1) ], rep(1, nrow(Q)))
 #  0	-4	 2
 #  2	 4	-6
 
+(g <- -solve(R) %*% rep(1, nrow(R)))
+# 1.00
+# 0.75
+# 1.00
 
-sum(Q[1, 2:nrow(Q)] / - Q[1, 1]  * -rowSums(solve(R)))
+
+sum(Q[1, -1] / rate[1]  * g)
+# 1
+
+(1 / (stationary * rate) - 1 / rate)[1]
 # 1

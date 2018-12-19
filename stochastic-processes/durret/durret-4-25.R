@@ -12,9 +12,18 @@ Q <- matrix(c(-4,  2, 2,
             3, 3, byrow = TRUE)
 
 
+(r <- - Q / diag(Q) )
+# -1.00	 0.5	 0.50
+#  0.75	-1.0	 0.25
+#  1.00  0.0	-1.00
+
 (R <- Q[2:nrow(Q),2:nrow(Q)])
 # -4	 1
 #  0	-5
 
-sum(Q[1, 2:nrow(Q)] / - Q[1, 1] * rowSums(solve(-R)))
+r[1, c(2, 3)] %*% solve(-R) %*% rep(1, nrow(R))
+# 0.25
+
+
+1 / (stationary * - diag(Q)) + 1 / diag(Q)
 # 0.25
