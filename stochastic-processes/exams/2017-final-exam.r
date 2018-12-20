@@ -52,8 +52,9 @@ dbinom(0, size = 20, prob = l.moto / (l.coche + l.moto + l.bus))
 # 0.000797922662976119
 
 ### d) 7th car before 2th motorcycle.
-(l.coche / 7) / ((l.coche / 7) + (l.moto / 2))
-# 0.363636363636364
+pbinom(7 - 1, size = 7 + 2 - 1, prob = l.coche / (l.coche + l.moto),
+       lower.tail = FALSE)
+# 0.195092211553117
 
 
 ### Exercise 3
