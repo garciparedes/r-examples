@@ -22,15 +22,11 @@ sum(duplicated(c(y, x))) > 0
 (W <- sum(rank(c(y, x))[1:length(y)]))
 # 459
 
-(W.mean <- n * (n + 1) / 4)
-# 280.5
+(W.mean <- n.y * (n + 1) / 4)
+# 212.5
 
-(W.var <- (n.x * n.y * (n + 1)) / 12)
+(W.var <- (n.y * n.x * (n + 1)) / 12)
 # 566.666666666667
-
-1 - pnorm((W - W.mean) / sqrt(W.var))
-# 3.23074900165921e-14
-
 
 (W.yx <-  W - n.y * (n.y + 1) / 2)
 # 134
