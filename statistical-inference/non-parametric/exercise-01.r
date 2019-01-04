@@ -16,8 +16,8 @@ y <- c(899, 326, 2118, 839, 820, 1423, 1687, 1010, 3011, 1739, 1185, 1320, 646,
 # 33
 
 
-c(y, x)[duplicated(c(y, x))]
-#
+sum(duplicated(c(y, x))) > 0
+# FALSE
 
 (W <- sum(rank(c(y, x))[1:length(y)]))
 # 459
@@ -43,7 +43,7 @@ c(y, x)[duplicated(c(y, x))]
 
 ### H0: X <= Y
 
-## Asyntothic
+## Asymptotic
 1 - pnorm((W.yx - W.yx.mean) / sqrt(W.yx.var))
 # 0.0766048231097839
 
