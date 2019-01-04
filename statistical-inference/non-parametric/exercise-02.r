@@ -42,8 +42,8 @@ sum(duplicated(c(y, x))) > 0
 ### H0: X >= Y
 
 # Asymptotic
-pnorm((W.yx - W.yx.mean) / W.yx.var)
-# 0.440382307629757
+pnorm((W.yx - W.yx.mean) / sqrt(W.yx.var))
+# 0.0456869683682225
 
 # Exact
 pwilcox(W.yx, n.y, n.x)
