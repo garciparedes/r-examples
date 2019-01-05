@@ -6,12 +6,12 @@ rm(list = ls())
 x.f <- c(5, 7, 16, 12)
 y.f <- c(7, 9, 15, 9)
 
-(x <- rep(1:length(x.f), x.f))
+x <- rep(1:length(x.f), x.f)
 
 (n.x <- length(x))
 # 40
 
-(y <- rep(1:length(y.f), y.f))
+y <- rep(1:length(y.f), y.f)
 
 (n.y <- length(y))
 # 40
@@ -37,10 +37,18 @@ y.f <- c(7, 9, 15, 9)
 1 - pwilcox(W.yx - 1, n.y, n.x)
 # 0.832293774410869
 
-wilcox.test(y, x, alternative = "greater")
+wilcox.test(y, x, alternative = "greater", correct = FALSE, exact = TRUE)
+# Warning message in wilcox.test.default(y, x, alternative = "greater", correct = FALSE):
+# “cannot compute exact p-value with ties”
+#
+# 	Wilcoxon rank sum test
+#
+# data:  y and x
+# W = 700, p-value = 0.8431
+# alternative hypothesis: true location shift is greater than 0
 
-
-
+## We can't reject H0, so we assume that treatment is less or equal than
+## control cases. pvalues are different due to ties correction.
 
 
 
