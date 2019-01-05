@@ -1,5 +1,5 @@
 ## Author: Sergio García Prado
-## Title: Statistical Inference - Goodness of Fit - Exercise 01
+## Title: Statistical Inference - Non parametric Tests - Exercise 03
 
 rm(list = ls())
 
