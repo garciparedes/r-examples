@@ -7,7 +7,7 @@ rm(list = ls())
 ####
 
 ##
-## Asyntotic distibution of p.hat as parameter p of Bin(n, p)
+## Asymptotic distibution of p.hat as parameter p of Bin(n, p)
 ## p.hat ~ N(p, p * (1 - p) / n)
 ##
 

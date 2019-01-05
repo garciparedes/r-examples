@@ -6,7 +6,7 @@ rm(list = ls())
 ## a)
 ####
 
-## Asyntotic distibution of (lambda1.hat, lambda2.hat) as parameters lambda1 of Pois(lambda1) and
+## Asymptotic distibution of (lambda1.hat, lambda2.hat) as parameters lambda1 of Pois(lambda1) and
 ## lambda2 of Pois(lambda2) independent of each other.
 ##
 ## (lambda1.hat, lambda2.hat) ~ N_2( (lambda1, lambda2) , [lambda1 / n, 0;

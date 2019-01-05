@@ -6,7 +6,7 @@ rm(list = ls())
 ## a)
 ####
 
-## Asyntotic distibution of (mu.hat, var.hat) as parameters mu and var of N(mu, sigma).
+## Asymptotic distibution of (mu.hat, var.hat) as parameters mu and var of N(mu, sigma).
 ##
 ## (mu.hat, var.hat) ~ N_2( (mu, sigma) , [var / n, 0;
 ##                                         0, 2 * var ^ 2  / n] )

@@ -6,7 +6,7 @@ rm(list = ls())
 ## a)
 ####
 
-## Asyntotic distibution of (p1.hat, p2.hat) as parameters p1 of Bin(n, p1) and
+## Asymptotic distibution of (p1.hat, p2.hat) as parameters p1 of Bin(n, p1) and
 ## p2 of Bin(n, p2) independent of each other.
 ##
 ## (p1.hat, p2.hat) ~ N_2( (p1, p2) , [p1 * (1 - p1) / n, 0;
