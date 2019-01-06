@@ -22,11 +22,11 @@ s <- c(0.464, 0.137, 2.455, -0.323, -0.068, 0.906, -0.513, -0.525, 0.595, 0.881,
 ### H1: X not symmetric
 
 ## Aymptotic pvalue (with continuity correction)
-2 * (1 - pnorm(abs(V - 0.5 - V.mean) / sqrt(V.var)))
+2 * (1 - pnorm(abs(V + 0.5 * sign(V.mean - V) - V.mean) / sqrt(V.var)))
 # 0.532789272835132
 
 ## Exact pvalue
-2 * (1 - psignrank(V - 1, n, lower.tail = V.mean < V))
+2 * (1 - psignrank(V - (V.mean < V), n, lower.tail = V.mean < V))
 # 0.541217803955078
 
 wilcox.test(s, alternative = "two.sided")

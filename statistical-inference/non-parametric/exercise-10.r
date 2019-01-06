@@ -32,8 +32,8 @@ y <- rep(1:length(y.f), y.f)
 
 
 # Asymptotic pvalue (with continuity correction, without tie correction)
-2 * (1 - pnorm(abs(W.xy + 0.5 - W.xy.mean) / sqrt(W.xy.var)))
-# 0.285487170071684
+2 * (1 - pnorm(abs(W.xy + 0.5 * sign(W.xy.mean - W.xy) - W.xy.mean) / sqrt(W.xy.var)))
+# 0.286124467472471
 
 ## Asymptotic pvalue (with continuity correction, with tie correction)
 # W.xy.var.corrected <- TODO
@@ -42,8 +42,8 @@ y <- rep(1:length(y.f), y.f)
 #
 
 ## Exact pvalue (not valid with ties)
-2 * (1 - pwilcox(W.xy, n.x, n.y, lower.tail = W.xy.mean < W.xy))
-# 0.286012269292367
+2 * (1 - pwilcox(W.xy - (W.xy.mean < W.xy), n.x, n.y, lower.tail = W.xy.mean < W.xy))
+# 0.286650510800022
 
 
 wilcox.test(x, y, alternative = "two.sided", exact = FALSE)

@@ -33,10 +33,10 @@ u <- c(-2.4, 9.9, 14.2, 18.4, 20.1, 23.1, 70.4)
 ### H0: U <= R
 ### H1: U > R
 
-1 - pnorm((W.ur - W.ur.mean) / sqrt(W.ur.var))
-# 0.00180189663203889
+1 - pnorm((W.ur + 0.5 * sign(W.ur.mean - W.ur) - W.ur.mean) / sqrt(W.ur.var))
+# 0.00213171569155368
 
-1 - pwilcox(W.ur - 1, n.u, n.r)
+1 - pwilcox(W.ur - (W.ur.mean < W.ur), n.u, n.r)
 # 0.00104895104895109
 
 ## We reject H0 in favor of H1, so U > R

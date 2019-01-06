@@ -25,11 +25,11 @@ b <- c(0.38, 0.40, 0.32, 0.50, 0.31, 0.52, 0.32, 0.36)
 ### H1: A(x) != B(x)
 
 ## Asymptotic pvalue (with continuity correction)
-2 * (1 - pnorm(abs(V - 0.5 - V.mean) / sqrt(V.var)))
+2 * (1 - pnorm(abs(V + 0.5 * sign(V.mean - V) - V.mean) / sqrt(V.var)))
 # 0.0208625823327655
 
 ## Exact pvalue
-2 * (1 - psignrank(V - 1, n, lower.tail = V.mean < V))
+2 * (1 - psignrank(V - (V.mean < V), n, lower.tail = V.mean < V))
 # 0.015625
 
 wilcox.test(a, b, paired = TRUE, alternative = "two.sided")

@@ -15,9 +15,9 @@ V <- 242
 # 5135
 
 ## Asymptotic pvalue (with continuity correction)
-2 * (1 - pnorm(abs(V - 0.5 - V.mean) / sqrt(V.var)))
-# 0.0382358702696617
+2 * (1 - pnorm(abs(V + 0.5 * sign(V.mean - V) - V.mean) / sqrt(V.var)))
+# 0.039555378139781
 
 ## Exact
-2 * (1 - psignrank(V - 1, n, lower.tail = V.mean < V))
-# 0.0372345517098438
+2 * (1 - psignrank(V - (V.mean < V), n, lower.tail = V.mean < V))
+# 0.0385776563234685
