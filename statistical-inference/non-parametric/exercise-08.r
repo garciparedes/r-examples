@@ -13,22 +13,22 @@ x2 <- c(2, 2, 3)  # c('B', 'B', 'C')
 (n.s <- length(s))
 # 2
 
-(W <- sum((s > 0) * rank(abs(s))))
+(V <- sum((s > 0) * rank(abs(s))))
 # 1.5
 
 
-(W.mean <- n.s * (n.s + 1) / 4)
+(V.mean <- n.s * (n.s + 1) / 4)
 # 1.5
 
-(W.var <- n.s * (n.s + 1) * (2 * n.s + 1) / 24)
+(V.var <- n.s * (n.s + 1) * (2 * n.s + 1) / 24)
 # 1.25
 
 ## Asymptotic pvalue
-1 - pnorm((W - W.mean) / sqrt(W.var))
+1 - pnorm((V - V.mean) / sqrt(V.var))
 # 0.5
 
 ## Exact pvalue
-1 - psignrank(W - 1, n.s)
+1 - psignrank(V - 1, n.s)
 # 0.5
 
 wilcox.test(x1 - x2, alternative = "greater", correct = FALSE)

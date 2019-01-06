@@ -13,22 +13,21 @@ x2 <- c(28, 27, 42, 44, 17, 6, 16)
 (n.s <- length(s))
 # 7
 
-(W <- sum((s > 0) * rank(abs(s))))
+(V <- sum((s > 0) * rank(abs(s))))
 # 21
 
-
-(W.mean <- n.s * (n.s + 1) / 4)
+(V.mean <- n.s * (n.s + 1) / 4)
 # 14
 
-(W.var <- n.s * (n.s + 1) * (2 * n.s + 1) / 24)
+(V.var <- n.s * (n.s + 1) * (2 * n.s + 1) / 24)
 # 35
 
 ## Asymptotic
-pnorm((W - W.mean) / sqrt(W.var))
+pnorm((V - V.mean) / sqrt(V.var))
 # 0.881638214681071
 
 ## Exact (not valid with ties)
-psignrank(W, n.s)
+psignrank(V, n.s)
 # 0.890625
 
 wilcox.test(x1, x2, paired = TRUE, alternative = "less", correct = FALSE)
