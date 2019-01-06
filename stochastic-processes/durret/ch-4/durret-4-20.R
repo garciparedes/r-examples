@@ -28,7 +28,7 @@ A <- cbind(Q[,1:(nrow(Q) - 1) ], rep(1, nrow(Q)))
 # 3.51261304140885
 
 
-## This case is more efficent thant two servers with mu = 2 rate because here
+## This case is more efficent thant two servers with mu = 2 rate due to here
 ## we are serving at rate = 4 for any number of clients, whereas at
 ## two-servers-case we only serve at rate = 4 when there are at least two
 ## clients.

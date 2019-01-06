@@ -10,17 +10,17 @@ x2 <- c(2, 2, 3)  # c('B', 'B', 'C')
 (s <- (x2 - x1)[x2 != x1])
 # 1 -1
 
-(n.s <- length(s))
+(n <- length(s))
 # 2
 
 (V <- sum((s > 0) * rank(abs(s))))
 # 1.5
 
 
-(V.mean <- n.s * (n.s + 1) / 4)
+(V.mean <- n * (n + 1) / 4)
 # 1.5
 
-(V.var <- n.s * (n.s + 1) * (2 * n.s + 1) / 24)
+(V.var <- n * (n + 1) * (2 * n + 1) / 24)
 # 1.25
 
 ## Asymptotic pvalue (with continuity correction, without tie correction)
@@ -31,7 +31,7 @@ x2 <- c(2, 2, 3)  # c('B', 'B', 'C')
 # TODO
 
 ## Exact pvalue (not valid with ties)
-1 - psignrank(V - 1, n.s)
+1 - psignrank(V - 1, n)
 # 0.5
 
 wilcox.test(x1,  x2, paired = TRUE, alternative = "greater", exact = FALSE)

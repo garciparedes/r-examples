@@ -37,5 +37,5 @@ pnorm((W.tc - W.tc.mean) / sqrt(W.tc.var))
 pwilcox(W.tc, n.t, n.c)
 # 0.00199506375976964
 
-## We'll reject H0 because there aren't enough evidences in favor of T >= C,
+## We'll reject H0 due to there aren't enough evidences in favor of T >= C,
 ## so we assume that T < C
