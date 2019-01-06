@@ -42,7 +42,7 @@ y <- rep(1:length(y.f), y.f)
 #
 
 ## Exact pvalue (not valid with ties)
-2 * (1 - pwilcox(W.xy, n.x, n.y))
+2 * (1 - pwilcox(W.xy, n.x, n.y, lower.tail = W.xy.mean < W.xy))
 # 0.286012269292367
 
 

@@ -35,7 +35,7 @@ x <- c("B", "B", "B", "A", "A", "B", "A", "B", "B", "B", "B", "A", "B", "A", "A"
 # 0.0864107329737001
 
 ## Exact Pvalue
-2 * (1 - pwilcox(W.ab - 1, n.a, n.b))
+2 * (1 - pwilcox(W.ab - 1, n.a, n.b, lower.tail = W.ab.mean < W.ab))
 # 0.0947195219641039
 
 wilcox.test(which(x == "A"), which(x == "B"))
