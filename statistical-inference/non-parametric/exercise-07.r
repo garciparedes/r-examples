@@ -22,20 +22,21 @@ x2 <- c(28, 27, 42, 44, 17, 6, 16)
 (V.var <- n.s * (n.s + 1) * (2 * n.s + 1) / 24)
 # 35
 
-## Asymptotic
-pnorm((V - V.mean) / sqrt(V.var))
-# 0.881638214681071
+## Asymptotic pvalue (with continuity correction, without tie correction)
+pnorm(V + 0.5, mean = V.mean, sd = sqrt(V.var))
+# 0.897553053091811
 
-## Exact (not valid with ties)
+## Asymptotic pvalue (with continuity correction, with tie correction)
+
+# TODO
+
+## Exact pvalue (not valid with ties)
 psignrank(V, n.s)
 # 0.890625
 
-wilcox.test(x1, x2, paired = TRUE, alternative = "less", correct = FALSE)
-# Warning message in wilcox.test.default(x1, x2, paired = TRUE, alternative = "less", :
-# “cannot compute exact p-value with ties”
-#
-# 	Wilcoxon signed rank test
+wilcox.test(x1, x2, paired = TRUE, alternative = "less", exact = FALSE)
+# Wilcoxon signed rank test with continuity correction
 #
 # data:  x1 and x2
-# V = 21, p-value = 0.8821
+# V = 21, p-value = 0.898
 # alternative hypothesis: true location shift is less than 0

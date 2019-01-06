@@ -31,20 +31,26 @@ y <- rep(1:length(y.f), y.f)
 # 501666.67
 
 
-# Asymptotic (without correction)
-2 * (1 - pnorm(abs(W.xy - W.xy.mean) / sqrt(W.xy.var)))
-# 0.285805698723043
+# Asymptotic pvalue (with continuity correction, without tie correction)
+2 * (1 - pnorm(abs(W.xy + 0.5 - W.xy.mean) / sqrt(W.xy.var)))
+# 0.285487170071684
 
-## Exact (not valid with ties)
+## Asymptotic pvalue (with continuity correction, with tie correction)
+# W.xy.var.corrected <- TODO
+#
+# 2 * (1 - pnorm(abs(W.xy + 0.5 - W.xy.mean) / sqrt(W.xy.var.corrected)))
+#
+
+## Exact pvalue (not valid with ties)
 2 * (1 - pwilcox(W.xy, n.x, n.y))
 # 0.286012269292367
 
 
-wilcox.test(x, y, alternative = "two.sided", correct = FALSE, exact = TRUE)
-# Wilcoxon rank sum test
+wilcox.test(x, y, alternative = "two.sided", exact = FALSE)
+# Wilcoxon rank sum test with continuity correction
 #
 # data:  x and y
-# W = 10756, p-value = 0.2123
+# W = 10756, p-value = 0.2126
 # alternative hypothesis: true location shift is not equal to 0
 
 

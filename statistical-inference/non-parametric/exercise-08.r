@@ -23,21 +23,20 @@ x2 <- c(2, 2, 3)  # c('B', 'B', 'C')
 (V.var <- n.s * (n.s + 1) * (2 * n.s + 1) / 24)
 # 1.25
 
-## Asymptotic pvalue
-1 - pnorm((V - V.mean) / sqrt(V.var))
-# 0.5
+## Asymptotic pvalue (with continuity correction, without tie correction)
+1 - pnorm(V - 0.5, mean = V.mean, sd = sqrt(V.var))
+# 0.672639576990711
 
-## Exact pvalue
+## Asymptotic pvalue (with continuity correction, with tie correction)
+# TODO
+
+## Exact pvalue (not valid with ties)
 1 - psignrank(V - 1, n.s)
 # 0.5
 
-wilcox.test(x1 - x2, alternative = "greater", correct = FALSE)
-# Warning message in wilcox.test.default(x1 - x2, alternative = "greater", correct = FALSE):
-# “cannot compute exact p-value with ties”Warning message in wilcox.test.default(x1 - x2, alternative = "greater", correct = FALSE):
-# “cannot compute exact p-value with zeroes”
-#
-# 	Wilcoxon signed rank test
+wilcox.test(x1,  x2, paired = TRUE, alternative = "greater", exact = FALSE)
+# Wilcoxon signed rank test with continuity correction
 #
 # data:  x1 - x2
-# V = 1.5, p-value = 0.5
+# V = 1.5, p-value = 0.6813
 # alternative hypothesis: true location is greater than 0
