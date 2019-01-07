@@ -28,7 +28,15 @@ pnorm(V + 0.5, mean = V.mean, sd = sqrt(V.var))
 
 ## Asymptotic pvalue (with continuity correction, with tie correction)
 
-# TODO
+(ties <- table(abs(s)))
+#  1  2  4  8 16 18
+#  1  1  2  1  1  1
+
+(V.var.corrected <- V.var - sum(ties ^ 3 - ties) / 48)
+# 34.875
+
+pnorm((V + 0.5 - V.mean) / sqrt(V.var.corrected))
+# 0.897957911117213
 
 ## Exact pvalue (not valid with ties)
 psignrank(V, n)

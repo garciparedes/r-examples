@@ -32,7 +32,7 @@ y <- rep(1:length(y.f), y.f)
 # 10800
 
 ## Asymptotic pvalue (with continuity correction, without tie correction)
-1 - pnorm(W.yx + 0.5, mean = W.yx.mean, sd = sqrt(W.yx.var))
+1 - pnorm(W.yx - 0.5, mean = W.yx.mean, sd = sqrt(W.yx.var))
 # 0.830827188754516
 
 ## Asymptotic pvalue (with continuity correction, with tie correction)

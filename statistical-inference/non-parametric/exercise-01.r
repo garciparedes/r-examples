@@ -39,11 +39,11 @@ sum(duplicated(c(y, x))) > 0
 
 ### H0: X <= Y
 
-## Asymptotic
-1 - pnorm((W.yx - W.yx.mean) / sqrt(W.yx.var))
-# 0.0766048231097839
+## Asymptotic pvalue (with continuity correction)
+1 - pnorm((W.yx - 0.5 - W.yx.mean) / sqrt(W.yx.var))
+# 0.0796719687339751
 
-## Exact
+## Exact pvalue
 1 - pwilcox(W.yx - 1, n.y, n.x)
 # 0.0812147313815834
 

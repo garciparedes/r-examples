@@ -30,12 +30,12 @@ x <- c("B", "B", "B", "A", "A", "B", "A", "B", "B", "B", "B", "A", "B", "A", "A"
 ### H0: A(x) == B(x)
 ### H1: A(x) != B(x)
 
-## Asymptotic pvalue
-2 * (1 - pnorm(abs(W.ab - W.ab.mean) / sqrt(W.ab.var)))
-# 0.0864107329737001
+## Asymptotic pvalue (with continuity correction)
+2 * (1 - pnorm(abs(W.ab + 0.5 * sign(W.ab.mean - W.ab) - W.ab.mean) / sqrt(W.ab.var)))
+# 0.0941663754378799
 
 ## Exact Pvalue
-2 * (1 - pwilcox(W.ab - 1, n.a, n.b, lower.tail = W.ab.mean < W.ab))
+2 * (1 - pwilcox(W.ab - (W.ab.mean < W.ab), n.a, n.b, lower.tail = W.ab.mean < W.ab))
 # 0.0947195219641039
 
 wilcox.test(which(x == "A"), which(x == "B"))

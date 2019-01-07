@@ -29,7 +29,6 @@ sum(duplicated(c(y, x))) > 0
 (W.var <- n.y * n.x * (n + 1) / 12)
 # 126.67
 
-
 (W.yx <- W - n.y * (n.y + 1) / 2)
 # 21
 
@@ -41,11 +40,11 @@ sum(duplicated(c(y, x))) > 0
 
 ### H0: X >= Y
 
-# Asymptotic
-pnorm((W.yx - W.yx.mean) / sqrt(W.yx.var))
-# 0.0456869683682225
+## Asymptotic pvalue (with continuity correction)
+pnorm((W.yx + 0.5 - W.yx.mean) / sqrt(W.yx.var))
+# 0.050112052808869
 
-# Exact
+## Exact
 pwilcox(W.yx, n.y, n.x)
 # 0.0505507564331094
 

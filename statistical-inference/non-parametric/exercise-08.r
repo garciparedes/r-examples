@@ -28,7 +28,15 @@ x2 <- c(2, 2, 3)  # c('B', 'B', 'C')
 # 0.672639576990711
 
 ## Asymptotic pvalue (with continuity correction, with tie correction)
-# TODO
+(ties <- table(abs(s)))
+# 1
+# 2
+
+(V.var.corrected <- V.var - sum(ties ^ 3 - ties) / 48)
+# 1.125
+
+1 - pnorm(V - 0.5, mean = V.mean, sd = sqrt(V.var.corrected))
+#0.681324055883031
 
 ## Exact pvalue (not valid with ties)
 1 - psignrank(V - 1, n)

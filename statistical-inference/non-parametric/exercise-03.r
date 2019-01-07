@@ -30,11 +30,11 @@ n.t <- 9
 (W.tc.var <- n.t * n.c * (n + 1) / 12)
 # 128.25
 
-pnorm((W.tc + 0.5 * sign(W.tc.mean - W.tc) - W.tc.mean) / sqrt(W.tc.var))
+pnorm((W.tc + 0.5 - W.tc.mean) / sqrt(W.tc.var))
 # 0.00309665908702214
 
 
-pwilcox(W.tc - (W.tc.mean < W.tc), n.t, n.c)
+pwilcox(W.tc, n.t, n.c)
 # 0.00199506375976964
 
 ## We'll reject H0 due to there aren't enough evidences in favor of T >= C,
