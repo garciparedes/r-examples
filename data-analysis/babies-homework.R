@@ -1,0 +1,74 @@
+babies <- read.table("datasets/babies.data", header = TRUE)
+
+summary(babies)
+
+# Data Wrangling 
+
+babies <- babies[babies$smoke != 9,]
+babies <- babies[babies$bwt != 999,]
+babies <- babies[babies$gestation != 999,]
+babies <- babies[babies$parity != 9,]
+babies <- babies[babies$age != 99,]
+babies <- babies[babies$height != 99,]
+babies <- babies[babies$weight != 999,]
+
+babies$smoke <- factor(babies$smoke, labels = c("non smokers", "smokers"))
+
+# Determinants of Birth Weight:
+#   Smooking seems to be a more significant determinant of birth weight than the
+#   mother's pre-pregnancy height, weight, parity or age. Is it true? What is 
+#   the most important factor? What is the joint effect of all covariates?
+
+colnames(babies)
+
+## Modelling
+
+models <- list()
+models$full = lm(bwt ~ ., data = babies)
+models$no.gestation = update(models$full, bwt ~ . - gestation)
+models$no.parity = update(models$full, bwt ~ . - parity)
+models$no.age = update(models$full, bwt ~ . - age)
+models$no.height = update(models$full, bwt ~ . - height)
+models$no.weight = update(models$full, bwt ~ . - weight)
+models$no.smoke = update(models$full, bwt ~ . - smoke)
+
+## Analyzing
+
+### Full model
+summary(models$full)
+
+### Are the variables significant?
+anova(models$no.gestation, models$full)
+anova(models$no.parity, models$full)
+anova(models$no.age, models$full)
+anova(models$no.height, models$full)
+anova(models$no.weight, models$full)
+anova(models$no.smoke, models$full)
+
+## Ranking
+
+rank <- 
+  sort(sapply(models, function(x) { 
+    summary(x)$r.squared 
+  }))
+rank
+
+## Plotting
+
+par(mai=c(0.5,1.5,0.5,0.5))
+bp <- barplot(rank, horiz = TRUE, las=1, main = "R Squared by model")
+text(rank, bp, round(rank, 5), pos=2)
+
+## Results
+
+### Smooking is the more most significant factor?
+ rank['no.smoke'] == min(rank)
+#### FALSE
+
+### Most important variable
+rank[rank == min(rank)]
+#### Gestation
+
+### Joint effect of all covariates
+summary(models$full)$r.squared
+#### 0.2579535
