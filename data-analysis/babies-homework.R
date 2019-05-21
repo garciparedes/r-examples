@@ -1,3 +1,7 @@
+## Advanced Analysis of Data - UNIBO
+## Sergio García Prado
+## Babies - Homework 3
+
 babies <- read.table("datasets/babies.data", header = TRUE)
 
 summary(babies)
@@ -11,6 +15,7 @@ babies <- babies[babies$parity != 9,]
 babies <- babies[babies$age != 99,]
 babies <- babies[babies$height != 99,]
 babies <- babies[babies$weight != 999,]
+
 
 babies$smoke <- factor(babies$smoke, labels = c("non smokers", "smokers"))
 
@@ -35,23 +40,15 @@ models$no.smoke = update(models$full, bwt ~ . - smoke)
 ## Analyzing
 
 ### Full model
-summary(models$full)
 
-### Are the variables significant?
-anova(models$no.gestation, models$full)
-anova(models$no.parity, models$full)
-anova(models$no.age, models$full)
-anova(models$no.height, models$full)
-anova(models$no.weight, models$full)
-anova(models$no.smoke, models$full)
+summary(models$full)
 
 ## Ranking
 
-rank <- 
+(rank <- 
   sort(sapply(models, function(x) { 
     summary(x)$r.squared 
-  }))
-rank
+  })))
 
 ## Plotting
 
@@ -72,3 +69,17 @@ rank[rank == min(rank)]
 ### Joint effect of all covariates
 summary(models$full)$r.squared
 #### 0.2579535
+
+
+### Extra: Ranking with correlated covariates.
+
+# install.packages("polycor")
+# install.packages("corrplot")
+# install.packages("relaimpo")
+
+library(polycor)
+library(corrplot)
+library(relaimpo)
+
+corrplot(as.matrix(hetcor(babies)))
+sort(calc.relimp(models$full)$lmg)
